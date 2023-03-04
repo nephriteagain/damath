@@ -1,0 +1,96 @@
+@import './mixins';
+
+.timer-one, 
+.timer-two {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: end;
+  padding-block: 0.15rem;
+  padding-inline: 0.25rem;
+  border-radius: 0.1rem;
+  width: 600px;
+  height: 1.5rem;
+  margin-inline: auto;
+  margin-block: 0.2rem;
+}
+
+.timer-counter-one, 
+.timer-counter-two {
+  text-align: center;
+  width: 5rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.timer-counter-one {
+  border: 1px solid red;
+}
+
+.timer-counter-two {
+  border: 1px solid blue;
+}
+
+.flip-time {
+  cursor: pointer;
+  width: 1.3rem;
+  height: 1.3rem;
+  position: relative;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  border: 1px solid;
+  border-radius: 4px;
+  box-shadow: 0 0 0.2rem 0.025rem rgba(0, 0, 0, 0.4);
+}
+
+.flip-time > svg {
+  position: absolute;
+  font-size: 1rem;
+  transform: translate(10%,10%);
+}
+
+.number-flipper {
+  cursor: pointer;
+  position: relative;
+  width: 1.3rem;  
+  height: 1.3rem;
+  padding-left: auto;
+}
+
+.number-flipper > svg {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  font-size: 1.3rem;
+}
+
+.svg-number {
+  transform: scale(0.6);
+}
+
+
+
+@include media-md {
+  .timer-one,
+  .timer-two {
+    width: 500px;
+  }
+}
+
+@include media-sm {
+  .timer-one,
+  .timer-two {
+    width: 400px;
+  }
+}
+
+@include media-xsm {
+  .timer-one,
+  .timer-two {
+    width: 300px;
+    transform: translateX(3%);
+  }
+}
+
+
+

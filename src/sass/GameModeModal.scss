@@ -1,0 +1,336 @@
+@import './mixins';
+
+
+.game-mode-modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba($color: #000000, $alpha: 0.3);
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.game-mode-modal {
+  position: relative;
+  width: 600px;
+  text-align: center;
+  background-color: #ccccff;
+  padding-block: 2rem;
+  margin-bottom: 10rem;
+  border-radius: 2rem;
+  box-shadow: 0 0 2rem 0.3rem rgba(0, 0, 0, 0.25);
+}
+
+.game-mode-header {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.btn-start-game {
+  cursor: pointer;
+  display: block;
+  margin-inline: auto;
+  margin-top: 2rem;
+}
+
+.btn-start-game {
+  display: block;
+  margin-inline: auto;
+  font-size: 2rem;
+  padding-block: 0.8rem;
+  padding-inline: 1rem;
+  margin-top: 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #7cf199;
+  box-shadow: 0 0 1rem 0.15rem rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-start-game:hover {
+  background-color: green;
+  color: #fff;
+  padding-inline: 3rem; 
+}
+
+.mode-dama, 
+.mode-perdigana {
+  cursor: pointer;
+  width: 12rem;
+  height: 3.2rem;
+  font-size: 1.7rem;
+  padding-block: 0.3rem;
+  border: none;
+  box-shadow: 0 0 0.7rem 0.12rem rgba(0, 0, 0, 0.25);
+  position: relative;
+  transition: all 0.1s ease-in-out;
+}
+
+.mode-dama {
+  text-align: left;
+  padding-left: 1rem;
+  margin-right: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  background-color: rgba(255, 0, 0, 0.65);
+}
+
+.mode-perdigana {
+  text-align: left;
+  padding-left: 1rem;
+  margin-left: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  background-color: rgba(0, 0, 255, 0.65);
+}
+
+.mode-dama:hover,
+.mode-perdigana:hover {
+  box-shadow: 0 0 0.7rem 0.12rem rgba(255, 255, 255, 0.7);
+}
+
+.more-info-dama, 
+.more-info-perdigana {
+  font-size: 1.5rem;
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.more-info-dama:hover,
+.more-info-perdigana:hover {
+  color: #fff;
+}
+
+
+.span-info-dama::before, 
+.span-info-perdigana::before {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  color: grey;
+  font-size: 0.9rem;
+  background-color: #fff;
+  padding: 0.5rem;
+  right: 0px;
+  bottom: 130%;
+  border-radius: 0.5rem;
+  opacity: 0;
+}
+
+.span-info-dama::before {
+  content: "win by CAPTURING all of the OPPONENTS chips or making your OPPONENT's chips UNABLE00 to move";
+}
+
+.span-info-perdigana::before {
+  content: 'win by FEEDING all of your chips or trapping your chips in a position it is UNABLE to move';
+}
+
+
+.span-info-dama::after, 
+.span-info-perdigana::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 107%;
+  right: 7%;
+  content: '';
+  border-left: 0.44rem solid transparent;
+  border-right: 0.44rem solid transparent;
+  border-top: 1.5rem solid white;
+  opacity: 0;
+}
+
+
+
+.span-info-dama:hover::before,
+.span-info-dama:hover::after,
+.span-info-perdigana:hover::before,
+.span-info-perdigana:hover::after {
+  opacity: 1;
+  height: auto;
+  width: auto;
+}
+
+
+
+.selected-mode {
+  border: 0.25rem solid gold;
+}
+
+.notification {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  background-color: #dc3545;
+  color: #fff;
+  border-radius: 1rem;
+  width: 15rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 2rem 0.3rem rgba(0, 0, 0, 0.8);
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  transform: translate(-50%, -500%);
+}
+
+.notification > p {
+  font-size: 1.2rem;
+}
+
+.rule-icon {
+  cursor: help;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 0.7rem;
+  border: 0.25rem solid rgb(217, 159, 83);;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+
+.rule-icon > svg {
+  font-size: 2rem;
+  color: rgb(217, 159, 83);
+}
+
+.rule-icon:hover {
+  scale: 1.2;
+  border: 0.25rem solid #fff;
+}
+
+.timer-icon {
+  cursor: pointer;
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  padding: 0.7rem;
+  border: 0.25rem solid rgb(217, 159, 83);;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+
+.timer-icon > svg {
+  font-size: 2rem;
+  color: rgb(217, 159, 83);
+}
+
+.timer-icon:hover {
+  scale: 1.2;
+  border: 0.25rem solid #fff;
+}
+
+.selected-time {
+  font-size: 1.6rem;
+  margin-inline: auto;
+  margin-block: 1rem;
+  width: fit-content;
+  padding-inline: 1rem;
+  padding-block: 0.25rem;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  box-shadow: inset 0 0 0.3rem rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease-in-out;
+}
+
+.selected-time:hover {
+  background-color: #000;
+  color: #fff;
+  box-shadow: 0 0 0.5rem 0.3rem rgba(255, 255, 255, 0.7);
+}
+
+.time-dropdown {
+  position: absolute;
+  left: 0.75rem;
+  bottom: -1rem;
+  font-size: 1.2rem;
+  text-align: center;
+  opacity: 0;
+  width: 120px;
+  padding-inline: 0.5rem;
+  padding-block: 0.25rem;
+  border: 1px solid transparent;
+  transition: all 10ms ease-in-out;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.time-dropdown > option {
+  text-align: center;
+  font-size: 1.1rem;
+  padding-block: 0.5rem;
+  border: 1px solid blue;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+
+
+@include media-sm {
+  .game-mode-modal {
+    width: 500px;
+  }
+  
+  .rule-icon > svg,
+  .timer-icon > svg {
+      font-size: 1.3rem;
+    }
+
+}
+
+
+@include media-xsm {
+  .game-mode-modal {
+    width: 90%;
+
+  }
+
+    .mode-dama {
+      margin-right: 0px;
+      display: block;
+      margin: 1rem auto;
+      border-radius: 0.5rem;
+    }
+
+    .mode-perdigana {
+      margin-left: 0px;
+      display: block;
+      margin: 1rem auto;
+      border-radius: 0.5rem;
+    }
+
+  .btn-start-game:hover {
+  padding-inline: 1.5rem;
+  }
+
+  .rule-icon {
+    right: 1rem;
+  }
+
+  .timer-icon {
+    left: 1rem;
+  }
+
+  .rule-icon > svg,
+  .timer-icon > svg {
+    font-size: 1.5rem;
+  }
+
+  .time-dropdown {
+    width: 80px;
+  }
+}
