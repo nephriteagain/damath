@@ -24,6 +24,11 @@ import { kingTopLeftCapture } from "../gamelogic/additionalCapture/kingCapture/t
 import { kingTopRightCapture } from "../gamelogic/additionalCapture/kingCapture/topRightKingCapture"
 
 
+function randomBool() {
+  return Math.random() < 0.5;
+}
+
+
 
 type GlobalContextProviderProps = {
   children: ReactNode
@@ -40,7 +45,7 @@ export const GlobalProvider = ({children}: GlobalContextProviderProps) => {
   const [ pieceToMove, setPieceToMove ] = useState(null)
   const [ possibleMoves, setPossibleMoves ] = useState([])
 
-  const [ playerOneTurn, setPlayerOneTurn ] = useState(false) // player one will still be first to move regardless
+  const [ playerOneTurn, setPlayerOneTurn ] = useState(randomBool()) // player one will still be first to move regardless
   const [ playerChipsCount, setPlayerChipsCount ] = useState({p1: 12, p2: 12})
   const [ gameOver, setGameOver ] = useState(false)
   const [ jumpedChip, setJumpedChip ] = useState(null)
@@ -548,7 +553,7 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     setBoardData(arrayData)
     setPieceToMove(null)
     setPossibleMoves([])
-    setPlayerOneTurn(true)
+    setPlayerOneTurn(randomBool())
     setPlayerChipsCount({p1: 12, p2: 12})
     setGameOver(false)
     setJumpedChip(null)
