@@ -19,6 +19,10 @@ export function solve(chipToBeTaken, pieceToMove, placeToLand) {
         total = moveValue / capturedValue
         if (total === Infinity) total = 0 // divided by zero
       }
+      
+      if (chipToBeTaken.king) total = total * 2 // normal piece eats king
+      if (pieceToMove.king) total = total * 2 // king eats normal piece
+      // if both chip to be taken and chip to jump are king, score is x4
 
       let index = total.toString().indexOf('.')
       let slice = total.toString().slice(index).length

@@ -3,6 +3,7 @@ import { MdCropRotate } from 'react-icons/md'
 
 import '../sass/Timer.scss';
 import { FlipNumberButtonBottom } from './FlipNumbers';
+import { ScoreOne } from './Score';
 
 function Timer({ timerOne, currentTimer }) {
 
@@ -43,6 +44,7 @@ function Timer({ timerOne, currentTimer }) {
       <div className='timer-counter-one' ref={timerRef}>{formatTime(timerOne)}</div>
       <span className='flip-time' onClick={rotateClock}><MdCropRotate /></span>
       <FlipNumberButtonBottom />
+      <ScoreOne />
     </div>
   );
 }

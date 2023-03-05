@@ -2,7 +2,8 @@ import { useRef, useEffect } from 'react'
 import { MdCropRotate } from 'react-icons/md'
 
 import '../sass/Timer.scss';
-import {FlipNumberButton} from './FlipNumbers';
+import { FlipNumberButton } from './FlipNumbers';
+import { ScoreTwo } from './Score';
 
 function TimerTwo({ timerTwo, currentTimer }) {
   
@@ -45,6 +46,7 @@ function TimerTwo({ timerTwo, currentTimer }) {
       <div className='timer-counter-two' ref={timerRef}>{formatTime(timerTwo)}</div>
       <span className='flip-time' onClick={rotateClock}><MdCropRotate /></span>
       <FlipNumberButton />
+      <ScoreTwo />
     </div>
   );
 }

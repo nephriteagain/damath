@@ -5,7 +5,7 @@ import '../sass/WinnerModal.scss'
 
 function WinnerModal() {
 
-  const { playerOneTurn, handleRestart, gameMode, timeSup } = useGlobalContext()
+  const { playerOneTurn, handleRestart, gameMode, timeSup, playerOneScore, playerTwoScore } = useGlobalContext()
 
 
   if (timeSup) {

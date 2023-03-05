@@ -1,14 +1,23 @@
 .score-one, .score-two {
-  position: absolute;
-  font-size: 2rem;
+  margin-right: auto;
+
 }
 
 .score-one {
-  left: 1rem;
-  top: 30%;
+  background-color: rgba(255,0,0,0.5);
 }
 
 .score-two {
-  right: 1rem;
-  top: 30%;
+  background-color: rgba(0,0,255,0.5);
 }
+
+.score-span {
+  border: 1px solid;
+  padding-inline: 0.5rem;
+  background-color: black;
+  color: white;
+}
+
+.score-text {
+  padding-inline: 0.5rem;
+} 

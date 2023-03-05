@@ -11,7 +11,6 @@ import RestartButton from "./RestartButton"
 import ChangeModeButton from "./ChangeModeButton"
 import ShowRuleButton from "./ShowRuleButton"
 import Board from "./Board"
-import {ScoreOne, ScoreTwo} from "./Score"
 
 
 import '../sass/Gameboard.scss'
@@ -34,8 +33,6 @@ function Gameboard({showRules}) {
     setGameOver,
     setTimesUp,
     timeSup,
-    playerOneScore,
-    playerTwoScore    
   } = useGlobalContext()
 
   
@@ -102,8 +99,6 @@ function Gameboard({showRules}) {
         timerOne={timerOne} 
         currentTimer={currentTimer}
       />
-      <ScoreOne playerOneScore={playerOneScore}/>
-      <ScoreTwo playerTwoScore={playerTwoScore}/>
     </div>
   )
 }
