@@ -23,6 +23,9 @@ import { kingBotRightCapture } from "../gamelogic/additionalCapture/kingCapture/
 import { kingTopLeftCapture } from "../gamelogic/additionalCapture/kingCapture/topLeftKingCapture"
 import { kingTopRightCapture } from "../gamelogic/additionalCapture/kingCapture/topRightKingCapture"
 
+// solving logic
+import { solve } from "../gamelogic/formula/solve"
+
 
 function randomBool() {
   return Math.random() < 0.5;
@@ -60,7 +63,8 @@ export const GlobalProvider = ({children}: GlobalContextProviderProps) => {
   const [currentTimer, setCurrentTimer] = useState(2);
   const [ isFirstMove, setIsFirstMove ] = useState(true)
   const [ timeSup, setTimesUp ] = useState(false)
-
+  const [ playerOneScore, setPlayerOneScore ] = useState(0)
+  const [ playerTwoScore, setPlayerTwoScore ] = useState(0)
 
 
   function highlightMoves(itemToMove, position: number, playerTurn: boolean, board) {
@@ -321,7 +325,7 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
 
 
-  function movePiece(pieceToMove: [], placeToLand: [], index: number) {
+  function movePiece(pieceToMove: {}, placeToLand: {}, index: number) {
     let movingPiece = pieceToMove
     let chipToBeTaken = {}
     let multipleJumpSearcher = {}
@@ -536,7 +540,13 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     }
 
     kingPromotionChecker()
-  
+    
+    if (chipToBeTaken?.piece) {
+      if (playerOneTurn) setPlayerOneScore(playerOneScore + solve(chipToBeTaken, pieceToMove, placeToLand))
+      if (!playerOneTurn) setPlayerTwoScore(playerTwoScore + solve(chipToBeTaken, pieceToMove, placeToLand))
+    }
+
+    // console.log(total, 'total')
     setBoardData([...newBoardData])
   
     
@@ -562,9 +572,10 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     setKingJumpDirection(null)
     setIsFirstMove(true)
     setTimesUp(false)
-
+    setPlayerOneScore(0)
+    setPlayerTwoScore(0)
     handleReset()
-  } 
+  }
 
   function handleReset() {
     setIsActive(false);
@@ -663,7 +674,9 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
       setTimesUp,
       timeSup,
       timeLimit,
-      setTimeLimit
+      setTimeLimit,
+      playerOneScore,
+      playerTwoScore
     }}
     >
       {children}

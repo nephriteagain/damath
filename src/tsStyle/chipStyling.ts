@@ -8,6 +8,6 @@ export function chipStyling(item, chipStyle) {
 
 export function underLining(item, underline) {
   if (item?.value === 6 || item?.value === -9) {
-    underline.borderBottom = '0.1rem solid white'
+    underline.borderTop = '0.1rem solid white'
   }
 }

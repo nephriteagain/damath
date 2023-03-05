@@ -1,0 +1,177 @@
+@import './mixins';
+
+.board {
+  position: relative;
+  width: 600px;
+  aspect-ratio: 1/1;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: auto;
+  margin: auto;
+  box-shadow: 0.3rem 0.3rem 0.6rem rgba(0, 0, 0, 0.4)
+}
+
+.board::before {
+  content: '';
+  position: absolute;
+  background: url("../assets/dama-num-vertical.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 600px;
+  width: 2rem;
+  left: -3rem;
+}
+
+.board::after {
+  content: '';
+  position: absolute;
+  background: url("../assets/dama-num-horizontal.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 600px;
+  height: 2.4rem;
+  bottom: -4.2rem;
+}
+
+.square {
+  width: 75px;
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all 0.2s ease-out;
+
+}
+
+.piece {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  border-radius: 50%;
+  color: #fff;
+  box-shadow: 0.2rem 0.2rem 0.32rem rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  transition: all 0.2s ease-in-out;
+}
+
+.piece>span {
+  transition: all 0.2s ease-in-out;
+}
+
+.piece:hover {
+  scale: 1.05;
+}
+
+.odd {
+  background-color: #fff;
+}
+
+.even {
+  background-color: #bbb;
+}
+
+.operation {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: 0.1s ease-in-out;
+}
+
+
+
+@include media-md {
+  .board {
+      width: 500px;
+    }
+  
+    .board::before {
+      height: 500px;
+      width: 1.6rem;
+      left: -1.9rem;
+    }
+  
+    .board::after {
+      height: 2rem;
+      width: 500px;
+      bottom: -3.7rem;
+    }
+  
+    .square {
+      width: 62.5px;
+      height: 62.5px;
+    }
+  
+    .piece {
+      width: 50px;
+      height: 50px;
+      font-size: 1.4rem;
+    }
+
+}
+
+@include media-sm {
+    .board {
+      width: 400px;
+    }
+  
+    .board::before {
+      height: 400px;
+      width: 1.4rem;
+      left: -1.7rem;
+    }
+  
+    .board::after {
+      height: 1.8rem;
+      width: 400px;
+      bottom: -3.5rem;
+    }
+  
+    .square {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .piece {
+      width: 40px;
+      height: 40px;
+      font-size: 1.3rem;
+    }
+
+}
+
+@include media-xsm {
+  .board {
+    width: 300px;
+    transform: translateX(3%);
+  }
+
+  .board::before {
+    height: 300px;
+    width: 1.2rem;
+    left: -1.5rem;
+  }
+
+  .board::after {
+    height: 1.5rem;
+    width: 300px;
+    bottom: -3.2rem;
+  }
+
+  .square {
+    width: 37.5px;
+    height: 37.5px;
+  }
+
+  .piece {
+    width: 30px;
+    height: 30px;
+  }
+}
