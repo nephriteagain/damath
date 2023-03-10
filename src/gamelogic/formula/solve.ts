@@ -30,6 +30,7 @@ export function solve(chipToBeTaken, pieceToMove, placeToLand) {
     const twoDeci = total.toFixed(2)
     total = Number(twoDeci)
   }
-  console.log(slice, 'slice')
+
+
   return total
 }

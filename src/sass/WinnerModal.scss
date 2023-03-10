@@ -19,7 +19,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
   background-color: #ccccff;
   padding-block: 2rem;
   // margin-bottom: 10rem;
@@ -27,11 +26,13 @@
   box-shadow: 0 0 2rem 0.3rem rgba(0, 0, 0, 0.25);
 }
 
-.winner-modal p {
-    font-size: 2.5rem;
-    margin-bottom: 5rem;
-    font-weight: bold;
+.game-result {
+  font-weight: bold;
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
 }
+
 
 .btn-new-game {
   cursor: pointer;
@@ -53,6 +54,57 @@
   color: #fff;
 }
 
+.chips-p1, .chips-p2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.p1, .p2 {
+  display: inline;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1rem;
+  margin-inline: 0.25rem;
+  margin-block: 0.15rem;
+  border-radius: 50%;
+}
+
+.king {
+  border: 0.2rem dashed white;
+}
+
+.p1 {
+  background: linear-gradient(to top left, red 0%, rgb(255, 90, 90) 70%)
+}
+.p2 {
+  background: linear-gradient(to top left, blue 0%, rgb(90, 90, 255) 70%)
+}
+
+.score-p1,
+.score-p2 {
+  position: relative;
+  margin-left: 5%;
+  font-size: 1.3rem;
+  margin-block: 0.15rem;
+}
+
+.scores {
+  position: absolute;
+  right: 5%;
+}
+
+.total {
+  font-weight: 900 !important;
+  font-size: 1.4rem;
+}
 
 @include media-xsm {
   .winner-modal {
@@ -60,7 +112,11 @@
     max-width: 400px;
   }
 
-  .winner-modal p {
-    font-size: 2rem;
+  .score-p1,
+  .score-p2 {
+    font-size: 1rem;
+  }
+  .total {
+    font-size: 1.1rem;
   }
 }

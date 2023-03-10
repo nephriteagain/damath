@@ -54,7 +54,7 @@ export const GlobalProvider = ({children}: GlobalContextProviderProps) => {
   const [ possibleMoves, setPossibleMoves ] = useState([])
   const [ playerOneTurn, setPlayerOneTurn ] = useState(randomBool()) // player one will still be first to move regardless
   const [ playerChipsCount, setPlayerChipsCount ] = useState({p1: 12, p2: 12})
-  const [ gameOver, setGameOver ] = useState(false)
+  const [ gameOver, setGameOver ] = useState(true)
   const [ jumpedChip, setJumpedChip ] = useState(null)
   const [multipleCapture, setMultipleCapture] = useState(false)
   const [forceCapture, setForceCapture] = useState(false)
