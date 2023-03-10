@@ -75,10 +75,11 @@
   margin-inline: 0.25rem;
   margin-block: 0.15rem;
   border-radius: 50%;
+  color: white;
 }
 
 .king {
-  border: 0.2rem dashed white;
+  border: 0.1rem dashed white;
 }
 
 .p1 {
@@ -104,6 +105,20 @@
 .total {
   font-weight: 900 !important;
   font-size: 1.4rem;
+}
+
+@include media-md {
+  .winner-modal {
+    width: 70%;
+    max-width: 400px;
+  }
+}
+
+@include media-sm {
+  .winner-modal {
+    width: 80%;
+    max-width: 400px;
+  }
 }
 
 @include media-xsm {

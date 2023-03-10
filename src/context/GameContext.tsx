@@ -54,12 +54,12 @@ export const GlobalProvider = ({children}: GlobalContextProviderProps) => {
   const [ possibleMoves, setPossibleMoves ] = useState([])
   const [ playerOneTurn, setPlayerOneTurn ] = useState(randomBool()) // player one will still be first to move regardless
   const [ playerChipsCount, setPlayerChipsCount ] = useState({p1: 12, p2: 12})
-  const [ gameOver, setGameOver ] = useState(true)
+  const [ gameOver, setGameOver ] = useState(false)
   const [ jumpedChip, setJumpedChip ] = useState(null)
   const [multipleCapture, setMultipleCapture] = useState(false)
   const [forceCapture, setForceCapture] = useState(false)
   const [ kingJumpDirection, setKingJumpDirection ] = useState(null)
-  const [ timeLimit, setTimeLimit ] = useState(3000)
+  const [ timeLimit, setTimeLimit ] = useState(6000)
   const [timerOne, setTimerOne] = useState(timeLimit);
   const [timerTwo, setTimerTwo] = useState(timeLimit);
   const [isActive, setIsActive] = useState(false);
@@ -488,10 +488,10 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
       if (pieceToJump.king) {
         // top right
-        kingTopLeftCapture(pieceJumped, index, board, kingJumpDirection, forceFeed, -9)
-        kingTopRightCapture(pieceJumped, index, board, kingJumpDirection, forceFeed, -7)
-        kingBotLeftCapture(pieceJumped, index, board, kingJumpDirection, forceFeed, 7)
-        kingBotRightCapture(pieceJumped, index, board, kingJumpDirection, forceFeed, 9)
+        kingTopLeftCapture(pieceToJump, index, board, kingJumpDirection, forceFeed, -9)
+        kingTopRightCapture(pieceToJump, index, board, kingJumpDirection, forceFeed, -7)
+        kingBotLeftCapture(pieceToJump, index, board, kingJumpDirection, forceFeed, 7)
+        kingBotRightCapture(pieceToJump, index, board, kingJumpDirection, forceFeed, 9)
       }
       if (forceFeed.length) {
         // console.log(forceFeed, 'you must eat this again')
@@ -521,7 +521,7 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     
 
     eatMoreChips(multipleJumpSearcher, jumpSearcherIndex, newBoardData, jumped, jumpDirection)
-
+    console.log(forceFeed, 'context forcefeed')
 
 
     function kingPromotionChecker() {

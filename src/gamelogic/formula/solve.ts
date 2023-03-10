@@ -25,10 +25,11 @@ export function solve(chipToBeTaken, pieceToMove, placeToLand) {
   // if both chip to be taken and chip to jump are king, score is x4
 
   let index = total.toString().indexOf('.')
-  let slice = total.toString().slice(index).length
-  if (slice > 3) {
-    const twoDeci = total.toFixed(2)
-    total = Number(twoDeci)
+  if (index !== -1) {
+    if (total.toString().split('.')[1]?.length > 2) {
+      let temp = total.toFixed(2)
+      total = Number(temp)
+    }
   }
 
 

@@ -69,10 +69,10 @@ function Rules({ setOpenRules, openRules }) {
         <CgCloseR />
       </span>
       <ol className="rule-lists" type="1">
-        {RULES.map(rule => {
+        {RULES.map((rule,index) => {
           return (
             <>
-            <li>{rule}</li>
+            <li key={index}>{rule}</li>
             <br/>
             </>
           )

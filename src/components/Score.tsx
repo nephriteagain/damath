@@ -6,7 +6,7 @@ export function ScoreOne() {
   const { playerOneScore } = useGlobalContext()
 
   let displayScore = playerOneScore
-  if (playerOneScore % 1 !== 0 && playerOneScore.toString().split('.')[1].length >= 3) {
+  if (playerOneScore % 1 !== 0 && playerOneScore.toString().split('.')[1]?.length >= 3) {
     displayScore = playerOneScore.toFixed(2)
   }
 
@@ -24,7 +24,7 @@ export function ScoreTwo() {
   const { playerTwoScore } = useGlobalContext()
 
   let displayScore = playerTwoScore
-  if (playerTwoScore % 1 !== 0 && playerTwoScore.toString().split('.')[1].length >= 3) {
+  if (playerTwoScore % 1 !== 0 && playerTwoScore.toString().split('.')[1]?.length >= 3) {
     displayScore = playerTwoScore.toFixed(2)
   }
 
