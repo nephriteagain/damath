@@ -2,8 +2,12 @@ import { useContext, createContext, useState, useEffect, ReactNode } from "react
 import { compileString } from "sass"
 import Gameboard from "../components/Gameboard"
 
-import { arrayData } from "../data/arrayData"
 import { POSSIBLEJUMPS } from "../data/possibleJumps"
+
+import { INTEGER } from "../data/integer"
+import { COUNTING } from "../data/counting"
+import { WHOLE } from "../data/whole"
+
 // regular chips logic
 import { checkForMovesPlayerOne, checkForMovesPlayerTwo } from '../gamelogic/moveSearcher/moveChecker'
 import { checkForJumps } from "../gamelogic/moveSearcher/jumpChecker"
@@ -44,10 +48,10 @@ const GlobalContext = createContext()
 export const GlobalProvider = ({children}: GlobalContextProviderProps) => {
 
   
-  const [ boardData, setBoardData ] = useState(arrayData)
+  const [ gameMode, setGameMode ] = useState('INTEGER')
+  const [ boardData, setBoardData ] = useState(INTEGER)
   const [ pieceToMove, setPieceToMove ] = useState(null)
   const [ possibleMoves, setPossibleMoves ] = useState([])
-
   const [ playerOneTurn, setPlayerOneTurn ] = useState(randomBool()) // player one will still be first to move regardless
   const [ playerChipsCount, setPlayerChipsCount ] = useState({p1: 12, p2: 12})
   const [ gameOver, setGameOver ] = useState(false)
@@ -55,7 +59,6 @@ export const GlobalProvider = ({children}: GlobalContextProviderProps) => {
   const [multipleCapture, setMultipleCapture] = useState(false)
   const [forceCapture, setForceCapture] = useState(false)
   const [ kingJumpDirection, setKingJumpDirection ] = useState(null)
-  const [ gameMode, setGameMode ] = useState('')
   const [ timeLimit, setTimeLimit ] = useState(3000)
   const [timerOne, setTimerOne] = useState(timeLimit);
   const [timerTwo, setTimerTwo] = useState(timeLimit);
@@ -542,8 +545,12 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     kingPromotionChecker()
     
     if (chipToBeTaken?.piece) {
-      if (playerOneTurn) setPlayerOneScore(playerOneScore + solve(chipToBeTaken, pieceToMove, placeToLand))
-      if (!playerOneTurn) setPlayerTwoScore(playerTwoScore + solve(chipToBeTaken, pieceToMove, placeToLand))
+      if (playerOneTurn) {
+        setPlayerOneScore(playerOneScore + solve(chipToBeTaken, pieceToMove, placeToLand))
+      }
+      if (!playerOneTurn) {
+        setPlayerTwoScore(playerTwoScore + solve(chipToBeTaken, pieceToMove, placeToLand))
+      }
     }
 
     // console.log(total, 'total')
@@ -560,7 +567,11 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
   }
 
   function handleRestart() {
-    setBoardData(arrayData)
+    
+    if (gameMode === 'INTEGER') setBoardData(INTEGER)
+    else if (gameMode === 'WHOLE') setBoardData(WHOLE)
+    else if (gameMode === 'COUNTING') setBoardData(COUNTING)
+
     setPieceToMove(null)
     setPossibleMoves([])
     setPlayerOneTurn(randomBool())
@@ -633,7 +644,18 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     }
   }, [playerOneTurn])
 
-
+  // game mode handler
+  useEffect(() => {
+    if (gameMode === 'INTEGER') {
+      setBoardData(INTEGER)
+    }
+    else if (gameMode === 'WHOLE') {
+      setBoardData(WHOLE)
+    }
+    else if (gameMode === 'COUNTING') {
+      setBoardData(COUNTING)
+    }
+  }, [gameMode])
 
 
   return (
@@ -676,7 +698,9 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
       timeLimit,
       setTimeLimit,
       playerOneScore,
-      playerTwoScore
+      playerTwoScore,
+      setPlayerOneScore,
+      setPlayerTwoScore
     }}
     >
       {children}

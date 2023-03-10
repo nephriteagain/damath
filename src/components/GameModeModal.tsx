@@ -21,8 +21,10 @@ const GameModeModal = ({ showRules }) => {
   } = useGlobalContext()
 
 
-  const damaRef = useRef()
-  const perdiganaRef = useRef()
+  const wholeRef = useRef()
+  const integerRef = useRef()
+  const countingRef = useRef()
+
   const gameModeRef = useRef('')
   const alertRef = useRef()
   const dropdropRef = useRef()
@@ -65,21 +67,45 @@ const GameModeModal = ({ showRules }) => {
   }, [timeLimit])
 
 
+  function selectCountingMode() {
+    integerRef.current.classList.remove('selected-mode')
+    wholeRef.current.classList.remove('selected-mode')
+    countingRef.current.classList.add('selected-mode')
 
-  function selectDamaMode() {
-    perdiganaRef.current.classList.remove('selected-mode')
-    damaRef.current.classList.add('selected-mode')
-
-    gameModeRef.current = 'dama'
-
+    gameModeRef.current = 'COUNTING'
   }
-  function selectPerdiganaMode() {
-    damaRef.current.classList.remove('selected-mode')
-    perdiganaRef.current.classList.add('selected-mode')
 
-    gameModeRef.current = 'perdigana'
+  function selectWholeMode() {
+    countingRef.current.classList.remove('selected-mode')
+    integerRef.current.classList.remove('selected-mode')
+    wholeRef.current.classList.add('selected-mode')
 
+    gameModeRef.current = 'WHOLE'
   }
+  function selectIntegerMode() {
+    countingRef.current.classList.remove('selected-mode')
+    wholeRef.current.classList.remove('selected-mode')
+    integerRef.current.classList.add('selected-mode')
+
+    gameModeRef.current = 'INTEGER'
+  }
+
+  function startGame() {
+    if (
+      gameModeRef.current === 'WHOLE' || 
+      gameModeRef.current === 'INTEGER' ||
+      gameModeRef.current === 'COUNTING'
+      ) {
+      setGameMode(gameModeRef.current)
+      
+    } else {
+      alertRef.current.style.transform = 'translate(-50%, 0%)'
+      setTimeout(() => {
+        alertRef.current.style.transform = 'translate(-50%, -500%)'
+      }, 3000)
+    }
+  }
+
 
   function formatTime (deciseconds) {
     if (deciseconds === Infinity) return 'Unlimited'
@@ -91,16 +117,7 @@ const GameModeModal = ({ showRules }) => {
 
 
 
-  function startGame() {
-    if (gameModeRef.current === 'dama' || gameModeRef.current === 'perdigana') {
-      setGameMode(gameModeRef.current)
-    } else {
-      alertRef.current.style.transform = 'translate(-50%, 0%)'
-      setTimeout(() => {
-        alertRef.current.style.transform = 'translate(-50%, -500%)'
-      }, 3000)
-    }
-  }
+  
 
   function showTimer() {
     const dropdown = window.getComputedStyle(dropdropRef.current)
@@ -120,19 +137,17 @@ const GameModeModal = ({ showRules }) => {
         Select a Game Mode
         </p>
         <div>
-          <button className="mode-dama" ref={damaRef}
-            onClick={selectDamaMode}
-          >Dama
-            <span className='span-info-dama'>
-              <AiOutlineInfoCircle className='more-info-dama' />
-            </span>
+          <button className="mode-counting" ref={countingRef}
+            onClick={selectCountingMode}
+          >Counting
           </button>
-          <button className="mode-perdigana" ref={perdiganaRef}
-            onClick={selectPerdiganaMode}
-          >Perdigana
-            <span className='span-info-perdigana'>
-            <AiOutlineInfoCircle className='more-info-perdigana' />
-            </span> 
+          <button className="mode-whole" ref={wholeRef}
+            onClick={selectWholeMode}
+          >Whole
+          </button>
+          <button className="mode-integer" ref={integerRef}
+            onClick={selectIntegerMode}
+          >Integer 
           </button> 
 
           <div className='selected-time'>

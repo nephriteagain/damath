@@ -1,6 +1,6 @@
-import { RiAddFill, RiSubtractFill, RiCloseFill, RiDivideFill,  } from 'react-icons/ri'
 
-export const arrayData = [
+
+export const INTEGER = [
   {x: 0, y: 7, piece: 'x', value: 2,  playable: true, highlighted: false, king: false  , selected: false, movable: true, operation: 'multiply'},
   {x: 1, y: 7, piece: null, playable: false, highlighted: false},
 
@@ -95,5 +95,5 @@ export const arrayData = [
   {x: 5, y: 0, piece: 'z', value: -5, playable: true, highlighted: false, king: false  , selected: false, movable: true, operation: 'divide'},
 
   {x: 6, y: 0, piece: null, playable: false, highlighted: false},
-  {x: 7, y: 0, piece: 'z', value: 2, playable: true, highlighted: false, king: false  , selected: false, movable: true, operation: 'add'},
+  {x: 7, y: 0, piece: 'z', value: 2, playable: true, highlighted: false, king: false  , selected: false, movable: true, operation: 'multiply'},
 ]
