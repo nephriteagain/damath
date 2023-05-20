@@ -30,54 +30,99 @@ import { kingTopRightCapture } from "../gamelogic/additionalCapture/kingCapture/
 // solving logic
 import { solve } from "../gamelogic/formula/solve"
 
+import type { data } from "../data/counting"
 
-function randomBool() {
-  return Math.random() < 0.5;
-}
+type gameMode = ('INTEGER'|'COUNTING'|'WHOLE')
 
-
+type kingJumpDirection = (null|'bot left'|'bot right'|'top left'|'top right')
 
 type GlobalContextProviderProps = {
   children: ReactNode
 }
 
+interface GameContextProps {
+  gameMode: gameMode;
+  setGameMode: React.Dispatch<React.SetStateAction<gameMode>>;
+  boardData: data[];
+  setBoardData: React.Dispatch<React.SetStateAction<data[]>>;
+  pieceToMove: data | null;
+  setPieceToMove: React.Dispatch<React.SetStateAction<data | null>>;
+  playerOneTurn: boolean;
+  setPlayerOneTurn: React.Dispatch<React.SetStateAction<boolean>>;
+  playerChipsCount: { p1: number; p2: number };
+  setPlayerChipsCount: React.Dispatch<React.SetStateAction<{ p1: number; p2: number }>>;
+  gameOver: boolean;
+  setGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  multipleCapture: boolean;
+  setMultipleCapture: React.Dispatch<React.SetStateAction<boolean>>;
+  forceCapture: boolean;
+  setForceCapture: React.Dispatch<React.SetStateAction<boolean>>;
+  kingJumpDirection: kingJumpDirection | null;
+  setKingJumpDirection: React.Dispatch<React.SetStateAction<kingJumpDirection | null>>;
+  timeLimit: number;
+  setTimeLimit: React.Dispatch<React.SetStateAction<number>>;
+  timerOne: number;
+  setTimerOne: React.Dispatch<React.SetStateAction<number>>;
+  timerTwo: number;
+  setTimerTwo: React.Dispatch<React.SetStateAction<number>>;
+  isActive: boolean;
+  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+  currentTimer: number;
+  setCurrentTimer: React.Dispatch<React.SetStateAction<number>>;
+  isFirstMove: boolean;
+  setIsFirstMove: React.Dispatch<React.SetStateAction<boolean>>;
+  timeSup: boolean;
+  setTimesUp: React.Dispatch<React.SetStateAction<boolean>>;
+  playerOneScore: number;
+  setPlayerOneScore: React.Dispatch<React.SetStateAction<number>>;
+  playerTwoScore: number;
+  setPlayerTwoScore: React.Dispatch<React.SetStateAction<number>>;
+  highlightMoves: (itemToMove: data, position: number, playerTurn: boolean, board: data[]) => void;
+  highlightMovesKing: (itemToMove: data, position: number, playerTurn: boolean, board: data[]) => void;
+  movePiece: (pieceToMove: data, placeToLand: data, index: number) => void;
+  handleRestart: () => void;
+  handleReset: () => void;
+}
 
+function randomBool() {
+  return Math.random() < 0.5;
+}
 
-const GlobalContext = createContext()
+const GlobalContext = createContext<GameContextProps>({} as GameContextProps)
 
 export const GlobalProvider = ({children}: GlobalContextProviderProps) => {
 
   
-  const [ gameMode, setGameMode ] = useState('INTEGER')
-  const [ boardData, setBoardData ] = useState(INTEGER)
-  const [ pieceToMove, setPieceToMove ] = useState(null)
-  const [ possibleMoves, setPossibleMoves ] = useState([])
-  const [ playerOneTurn, setPlayerOneTurn ] = useState(randomBool()) // player one will still be first to move regardless
-  const [ playerChipsCount, setPlayerChipsCount ] = useState({p1: 12, p2: 12})
-  const [ gameOver, setGameOver ] = useState(false)
-  const [ jumpedChip, setJumpedChip ] = useState(null)
-  const [multipleCapture, setMultipleCapture] = useState(false)
-  const [forceCapture, setForceCapture] = useState(false)
-  const [ kingJumpDirection, setKingJumpDirection ] = useState(null)
-  const [ timeLimit, setTimeLimit ] = useState(6000)
-  const [timerOne, setTimerOne] = useState(timeLimit);
-  const [timerTwo, setTimerTwo] = useState(timeLimit);
-  const [isActive, setIsActive] = useState(false);
-  const [currentTimer, setCurrentTimer] = useState(2);
-  const [ isFirstMove, setIsFirstMove ] = useState(true)
-  const [ timeSup, setTimesUp ] = useState(false)
-  const [ playerOneScore, setPlayerOneScore ] = useState(0)
-  const [ playerTwoScore, setPlayerTwoScore ] = useState(0)
+  const [ gameMode, setGameMode ] = useState<gameMode>('INTEGER')
+  const [ boardData, setBoardData ] = useState<data[]>(INTEGER)
+  const [ pieceToMove, setPieceToMove ] = useState<data|null>(null)
+  // const [ possibleMoves, setPossibleMoves ] = useState([])
+  const [ playerOneTurn, setPlayerOneTurn ] = useState<boolean>(randomBool()) // player one will still be first to move regardless
+  const [ playerChipsCount, setPlayerChipsCount ] = useState<{p1: number, p2: number}>({p1: 12, p2: 12})
+  const [ gameOver, setGameOver ] = useState<boolean>(false)
+  // const [ jumpedChip, setJumpedChip ] = useState(null)
+  const [multipleCapture, setMultipleCapture] = useState<boolean>(false)
+  const [forceCapture, setForceCapture] = useState<boolean>(false)
+  const [ kingJumpDirection, setKingJumpDirection ] = useState<kingJumpDirection>(null)
+  const [ timeLimit, setTimeLimit ] = useState<number>(6000)
+  const [timerOne, setTimerOne] = useState<number>(timeLimit);
+  const [timerTwo, setTimerTwo] = useState<number>(timeLimit);
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [currentTimer, setCurrentTimer] = useState<number>(2);
+  const [ isFirstMove, setIsFirstMove ] = useState<boolean>(true)
+  const [ timeSup, setTimesUp ] = useState<boolean>(false)
+  const [ playerOneScore, setPlayerOneScore ] = useState<number>(0)
+  const [ playerTwoScore, setPlayerTwoScore ] = useState<number>(0)
 
 
-  function highlightMoves(itemToMove, position: number, playerTurn: boolean, board) {
-    const { x: xPosition, y: yPosition, piece, player, selected } = itemToMove;
-    let tempArrForMoves = [] // stores non capturing moves
-    let tempArrForJumps = [] // stores capturing moves
-    let tempArrForJumps2 = []                                         
-    let jumpDirection = [] // stores direction of jumps
-    const doubleTakeArr : number[] = [] // stores jumps from double captures
-    let tripleTakeArr : number[] = []
+  function highlightMoves(itemToMove: data, position: number, playerTurn: boolean, board: data[]) {
+    const { x: xPosition, y: yPosition, piece, selected } = itemToMove;
+    let tempArrForMoves : data[] = [] // stores non capturing moves
+    let tempArrForJumps : data[] = [] // stores capturing moves
+    let tempArrForJumps2 : data[] = []                                         
+    let jumpDirection : string[] = [] // stores direction of jumps
+    const doubleTakeArr : data[] = [] // stores jumps from double captures
+    let tripleTakeArr : data[] = []
     const jumpDirection2nd : string[] = [] // stores direction jumps from double captures
     
     if (piece === null) return
@@ -197,20 +242,20 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
   
   setPieceToMove({...itemToMove})
-  setPossibleMoves([...tempArrForMoves])
+  // setPossibleMoves([...tempArrForMoves])
   setBoardData([...boardCopy])
   }
 
-  function highlightMovesKing(itemToMove, position: number, playerTurn, board) {
-    const { x: xPosition, y: yPosition, piece, player } = itemToMove;
-    let tempArrForMoves = []
-    let tempArrForJumps = []
-    let jumpDirection = []
+  function highlightMovesKing(itemToMove: data, position: number, playerTurn: boolean, board: data[]) {
+    const { x: xPosition, y: yPosition, piece,  } = itemToMove;
+    let tempArrForMoves : data[] = []
+    let tempArrForJumps : data[] = []
+    let jumpDirection : string[] = []
     
-    let doubleTakeArr = []
-    let tripleTakeArr = []
-    let jumpDirection2nd = []
-    let doubleTakeLanding = []
+    let doubleTakeArr : data[] = []
+    let tripleTakeArr : data[] = []
+    let jumpDirection2nd : string[] = []
+    let doubleTakeLanding : data[] = []
 
     if (piece === null) return
     if (!itemToMove.king) return
@@ -320,7 +365,7 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     })
 
 
-    setPossibleMoves([...tempArrForMoves])
+    // setPossibleMoves([...tempArrForMoves])
     setBoardData([...tempboard])
     setPieceToMove({...itemToMove})
 
@@ -328,10 +373,10 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
 
 
-  function movePiece(pieceToMove: {}, placeToLand: {}, index: number) {
+  function movePiece(pieceToMove: data, placeToLand: data, index: number) {
     let movingPiece = pieceToMove
-    let chipToBeTaken = {}
-    let multipleJumpSearcher = {}
+    let chipToBeTaken : data = {}
+    let multipleJumpSearcher : data = {}
     let jumpSearcherIndex = -1000
     let jumped = false
     let jumpDirection: (null|string) = kingJumpDirection
@@ -345,7 +390,7 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
     let newBoardData = boardData.map((item, index) => {
       if (!item.playable) return item
-      const indexStart = boardData.indexOf(chipToMove)
+      const indexStart = boardData.indexOf(chipToMove as data)
       const indexLand = boardData.indexOf(placeToLand)
 
     
@@ -475,8 +520,8 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     })
     // setBoardData([...newArr])
     
-    let forceFeed = []
-    function eatMoreChips(pieceToJump, index: number, board, pieceJumped: boolean, kingJumpDirection: string) {
+    let forceFeed : data[] = []
+    function eatMoreChips(pieceToJump: data, index: number, board: data[], pieceJumped: boolean, kingJumpDirection: string|null) {
       if (!pieceJumped) return // only when a piece do a capture that this will run
       forceFeed = []
       if (!pieceToJump.king) {
@@ -526,7 +571,7 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
     function kingPromotionChecker() {
       if (forceFeed.length) return
-      newBoardData = newBoardData.map((item) => {
+      newBoardData = newBoardData.map((item: data) => {
         if (!item.playable) return item
 
         else if (item.piece === 'z' && !item.king && item.y === 7) {
@@ -546,10 +591,12 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     
     if (chipToBeTaken?.piece) {
       if (playerOneTurn) {
-        setPlayerOneScore(playerOneScore + solve(chipToBeTaken, pieceToMove, placeToLand))
+        const score = solve(chipToBeTaken, pieceToMove, placeToLand) as number
+        setPlayerOneScore(playerOneScore + score)
       }
       if (!playerOneTurn) {
-        setPlayerTwoScore(playerTwoScore + solve(chipToBeTaken, pieceToMove, placeToLand))
+        const score = solve(chipToBeTaken, pieceToMove, placeToLand) as number
+        setPlayerTwoScore(playerTwoScore + score)
       }
     }
 
@@ -573,11 +620,11 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     else if (gameMode === 'COUNTING') setBoardData(COUNTING)
 
     setPieceToMove(null)
-    setPossibleMoves([])
+    // setPossibleMoves([])
     setPlayerOneTurn(randomBool())
     setPlayerChipsCount({p1: 12, p2: 12})
     setGameOver(false)
-    setJumpedChip(null)
+    // setJumpedChip(null)
     setMultipleCapture(false)
     setForceCapture(false)
     setKingJumpDirection(null)
@@ -598,9 +645,9 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
   // player chips counter
   useEffect(() => {
-    let playerMoveArr  = []
-    let tempArr = [] // only place to reuse a function
-    let jumpDirection = [] // only place to reuse a function
+    let playerMoveArr : data[] = []
+    let tempArr : data[] = [] // only place to reuse a function
+    let jumpDirection : string[] = [] // only place to reuse a function
 
     boardData.forEach((item, index) => {
       if (!item?.playable) return // black squares
@@ -672,9 +719,9 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
       gameOver,
       setGameOver,
       playerChipsCount,
-      setPossibleMoves,
-      jumpedChip,
-      setJumpedChip,
+      // setPossibleMoves,
+      // jumpedChip,
+      // setJumpedChip,
       multipleCapture,
       setMultipleCapture,
       forceCapture,

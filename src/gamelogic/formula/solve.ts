@@ -1,9 +1,11 @@
-export function solve(chipToBeTaken, pieceToMove, placeToLand) {
+import { data } from "../../data/counting"
+
+export function solve(chipToBeTaken : data, pieceToMove : data, placeToLand: data) {
   if (!chipToBeTaken?.piece) return
   let total = 0
-  const capturedValue : number= chipToBeTaken.value
-  const moveValue : number = pieceToMove.value
-  const operation : string = placeToLand.operation
+  const capturedValue : number= chipToBeTaken.value as number
+  const moveValue : number = pieceToMove.value as number
+  const operation : string = placeToLand.operation as string
 
   if (operation === 'add') {
     total = moveValue + capturedValue
