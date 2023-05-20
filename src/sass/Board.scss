@@ -2,7 +2,7 @@
 
 .board {
   position: relative;
-  width: 600px;
+  width: 550px;
   aspect-ratio: 1/1;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -17,7 +17,7 @@
   background: url("../assets/dama-num-vertical.png");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 600px;
+  height: 550px;
   width: 2rem;
   left: -3rem;
 }
@@ -28,7 +28,7 @@
   background: url("../assets/dama-num-horizontal.png");
   background-repeat: no-repeat;
   background-size: cover;
-  width: 600px;
+  width: 550px;
   height: 2.4rem;
   bottom: -4.2rem;
 }
