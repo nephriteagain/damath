@@ -1,10 +1,12 @@
+import { data } from "../../../data/counting"
+
 export function kingBotRightCapture(
-  pieceToJump,
-  index,
-  board,
-  kingJumpDirection,
-  forceFeed,
-  number
+  pieceToJump : data,
+  index : number,
+  board : data[],
+  kingJumpDirection : string|null,
+  forceFeed : data[],
+  number : number
 ) {
   if (number === 9) {
         const moveOne = board[index + number]      

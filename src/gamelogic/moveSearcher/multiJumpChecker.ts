@@ -1,14 +1,16 @@
+import { data } from "../../data/counting"
+
 export function checkForMultiJumps(
-  itemToMove,
-  index,
-  arrToJumpIndices,
-  board,
-  jumpDirection,
-  doubleTakeArr,
-  number,
-  tempArrForJumps,
-  jumpDirection2nd,
-  tempArrForJumps2
+  itemToMove : data,
+  index : number,
+  arrToJumpIndices : number[],
+  board : data[],
+  jumpDirection : string[],
+  doubleTakeArr: data[],
+  number : number,
+  tempArrForJumps : data[],
+  jumpDirection2nd? : string[],
+  tempArrForJumps2? : data[]
 ) {
   const jumpIndex = arrToJumpIndices[index]
   const jumpSquare = board[jumpIndex + (number * 2)]

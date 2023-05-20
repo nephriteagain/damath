@@ -1,6 +1,20 @@
+export interface data {
+  x?: number
+  y?: number
+  piece?: piece
+  value?: (number|null)
+  playable?: boolean
+  highlighted?: boolean
+  king?: boolean
+  selected?: boolean
+  movable?: boolean
+  operation?: operation
+}
 
+export type piece = ('x'|'z'|null)
+export type operation = ('add'|'subtract'|'multiply'|'divide')
 
-export const COUNTING = [
+export const COUNTING : data[] = [
   {x: 0, y: 7, piece: 'x', value: 3,  playable: true, highlighted: false, king: false  , selected: false, movable: true, operation: 'multiply'},
   {x: 1, y: 7, piece: null, playable: false, highlighted: false},
 

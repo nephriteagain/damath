@@ -1,11 +1,13 @@
+import { data } from "../../data/counting"
+
 export function kingBotRight(
-  itemToMove: {},
+  itemToMove: data,
   position: number,
-  kingJumpDirection: string,
-  board: any [],
-  tempArrForMoves: [],
-  tempArrForJumps: [],
-  jumpDirection: [],
+  kingJumpDirection: string|null,
+  board: data[],
+  tempArrForMoves: data[],
+  tempArrForJumps: data[],
+  jumpDirection: string[],
   number: number
 ) {
       const moveOne = board[position + number]

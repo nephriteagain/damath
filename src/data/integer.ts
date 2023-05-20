@@ -1,6 +1,6 @@
+import { data } from "./counting"
 
-
-export const INTEGER = [
+export const INTEGER : data[] = [
   {x: 0, y: 7, piece: 'x', value: 2,  playable: true, highlighted: false, king: false  , selected: false, movable: true, operation: 'multiply'},
   {x: 1, y: 7, piece: null, playable: false, highlighted: false},
 

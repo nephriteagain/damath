@@ -1,14 +1,16 @@
+import { data } from "../../data/counting"
+
 export function kingBotRightMulti(
-  itemToMove: {},
+  itemToMove: data,
   index: number,
-  jumpDirection: string [],
-  board: any [],
+  jumpDirection: string[],
+  board: data[],
   jumpIndex: number,
-  doubleTakeArr: [],
-  tempArrForJumps: [],
+  doubleTakeArr: data[],
+  tempArrForJumps: data[],
   number: number,
-  jumpDirection2nd: string [],
-  doubleTakeLanding: any [],
+  jumpDirection2nd?: string[],
+  doubleTakeLanding?: data[],
 ) {
   if (number === 9) {
 

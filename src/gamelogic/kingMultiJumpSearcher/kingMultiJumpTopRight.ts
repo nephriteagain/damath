@@ -1,14 +1,16 @@
+import { data } from "../../data/counting"
+
 export function kingTopRightMulti(
-  itemToMove: {},
+  itemToMove: data,
   index: number,
-  jumpDirection: string [],
-  board: any [],
+  jumpDirection: string[],
+  board: data[],
   jumpIndex: number,
-  doubleTakeArr: [],
-  tempArrForJumps: [],
+  doubleTakeArr: data[],
+  tempArrForJumps: data[],
   number: number,
-  jumpDirection2nd: string [], // optional arg
-  doubleTakeLanding: any [], // optional arg
+  jumpDirection2nd?: string[], // optional arg
+  doubleTakeLanding?: data[], // optional arg
 ) {
   if (number === -7) {
 
