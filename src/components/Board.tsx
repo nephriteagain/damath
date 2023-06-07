@@ -28,6 +28,7 @@ import { operationStyling } from "../tsStyle/OperationStyling"
 import { underLining } from "../tsStyle/chipStyling"
 import { cursorPointers } from "../tsStyle/cursorPointers"
 
+import { data } from "../data/counting"
 
 function Board() {
 
@@ -68,14 +69,14 @@ function Board() {
       setKingJumpDirection(null)
     }
     if (forceCapture) return //this wont rerun again multiple times
-    let forceFeed = []
-    let forceFeed2nd = []
-    let forceFeed3rd = []
-    let jumpedArr = []
-    let jumpDirection = []
-    let jumpedArr2nd = []
-    let jumpDirection2nd = []
-    let jumpedArr3rd = []   
+    let forceFeed : data[] = []
+    let forceFeed2nd : data[] = []
+    let forceFeed3rd : data[] = []
+    let jumpedArr : data[] = []
+    let jumpDirection : string[] = []
+    let jumpedArr2nd : data[] = []
+    let jumpDirection2nd : string[] = []
+    let jumpedArr3rd : data[] = []   
 
     
 
@@ -208,8 +209,9 @@ if (forceFeed3rd.length) forceFeed = forceFeed3rd
   }, [pieceToMove])
 
   return (
+    <>
     <div className='board'>
-      { boardData.map((item: [], index: number) => {
+      { boardData.map((item: data, index: number) => {
 
         const boardStyle  = {}
         boardStyling(item, boardStyle, playerOneTurn)
@@ -233,7 +235,7 @@ if (forceFeed3rd.length) forceFeed = forceFeed3rd
               () => {
                 if (!item.highlighted) return
                 isFirstMove && handleStart()
-                movePiece(pieceToMove, item, index)
+                movePiece(pieceToMove as data, item, index)
                 
               }
             }
@@ -266,6 +268,7 @@ if (forceFeed3rd.length) forceFeed = forceFeed3rd
         </div> )
       }) }
     </div>
+    </>
   )
 }
 

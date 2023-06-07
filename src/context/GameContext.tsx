@@ -9,7 +9,7 @@ import { COUNTING } from "../data/counting"
 import { WHOLE } from "../data/whole"
 
 // regular chips logic
-import { checkForMovesPlayerOne, checkForMovesPlayerTwo } from '../gamelogic/moveSearcher/moveChecker'
+import { checkForMovesPlayerOne, checkForMovesPlayerTwo, checkForMovesOrJumpsPlayerOne, checkForMovesOrJumpsPlayerTwo } from '../gamelogic/moveSearcher/moveChecker'
 import { checkForJumps } from "../gamelogic/moveSearcher/jumpChecker"
 import { checkForMultiJumps } from "../gamelogic/moveSearcher/multiJumpChecker"
 import { regularCapture } from "../gamelogic/additionalCapture/capture/regularCapture"
@@ -32,7 +32,7 @@ import { solve } from "../gamelogic/formula/solve"
 
 import type { data } from "../data/counting"
 
-type gameMode = ('INTEGER'|'COUNTING'|'WHOLE')
+type gameMode = ('INTEGER'|'COUNTING'|'WHOLE'|'')
 
 type kingJumpDirection = (null|'bot left'|'bot right'|'top left'|'top right')
 
@@ -655,12 +655,12 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
       if (!item.king) {
         if (playerOneTurn) {
-          checkForMovesPlayerOne(item, index, boardData, playerMoveArr, -7)
-          checkForMovesPlayerOne(item, index, boardData, playerMoveArr, -9)
+          checkForMovesOrJumpsPlayerOne(item, index, boardData, playerMoveArr, -7)
+          checkForMovesOrJumpsPlayerOne(item, index, boardData, playerMoveArr, -9)
 
         } else {
-          checkForMovesPlayerTwo(item, index, boardData, playerMoveArr, 7)
-          checkForMovesPlayerTwo(item, index, boardData, playerMoveArr, 9)
+          checkForMovesOrJumpsPlayerTwo(item, index, boardData, playerMoveArr, 7)
+          checkForMovesOrJumpsPlayerTwo(item, index, boardData, playerMoveArr, 9)
 
         }
         

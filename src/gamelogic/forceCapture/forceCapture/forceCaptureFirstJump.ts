@@ -14,10 +14,10 @@ export function forceCaptureRegular(
     if (number === - 7) {
       // top right jump
         if (
-        item.piece !== null &&
+        item?.piece !== null &&
         squareToLand?.playable &&
         itemToCapture?.piece !== null &&
-        itemToCapture?.piece !== item.piece &&
+        itemToCapture?.piece !== item?.piece &&
         squareToLand?.piece === null
         ) {
           forceFeed.push(item)
@@ -29,10 +29,10 @@ export function forceCaptureRegular(
     if (number === - 9) {
       // top left jump
       if (
-        item.piece !== null &&
+        item?.piece !== null &&
         squareToLand?.playable &&
         itemToCapture?.piece !== null &&
-        itemToCapture?.piece !== item.piece &&
+        itemToCapture?.piece !== item?.piece &&
         squareToLand?.piece === null
         ) {
           forceFeed.push(item)
@@ -44,10 +44,10 @@ export function forceCaptureRegular(
     if (number === 7) {
       // bot left jump
       if (
-        item.piece !== null &&
+        item?.piece !== null &&
         squareToLand?.playable &&
         itemToCapture?.piece !== null &&
-        itemToCapture?.piece !== item.piece &&
+        itemToCapture?.piece !== item?.piece &&
         squareToLand?.piece === null
         ) {
           forceFeed.push(item)
@@ -59,10 +59,10 @@ export function forceCaptureRegular(
     if (number === 9) {
       // bot right jump
       if (
-        item.piece !== null &&
+        item?.piece !== null &&
         squareToLand?.playable &&
         itemToCapture?.piece !== null &&
-        itemToCapture?.piece !== item.piece &&
+        itemToCapture?.piece !== item?.piece &&
         squareToLand?.piece === null
         ) {
           forceFeed.push(item)
