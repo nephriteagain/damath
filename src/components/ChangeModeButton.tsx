@@ -1,14 +1,15 @@
 import { useGlobalContext } from '../context/GameContext'
 
 import '../sass/Gameboard.scss'
+import { actionType } from '../types/types'
 
 
 function ChangeModeButton() {
 
-  const {handleRestart, handleReset, setGameMode} = useGlobalContext()
+  const {handleRestart, handleReset, dispatch} = useGlobalContext()
 
   function changeGameMode() {
-    setGameMode('')
+    dispatch({type: actionType.setGameMode})
   }
   
   return (

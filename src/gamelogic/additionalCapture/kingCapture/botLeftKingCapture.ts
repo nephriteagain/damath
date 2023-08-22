@@ -1,10 +1,9 @@
-import { data } from "../../../data/counting"
-
+import { data, kingJumpDirection } from "../../../types/types"
 export function kingBotLeftCapture(
   pieceToJump: data,
   index : number,
   board : data[],
-  kingJumpDirection : string|null,
+  kingJumpDirection : kingJumpDirection,
   forceFeed : data[],
   number: number
 ) {

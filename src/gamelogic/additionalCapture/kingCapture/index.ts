@@ -1,4 +1,4 @@
-import { data } from "../../../data/counting";
+import { data, kingJumpDirection } from "../../../types/types";
 import { kingTopLeftCapture } from "./topLeftKingCapture";
 import { kingTopRightCapture } from "./topRightKingCapture";
 import { kingBotLeftCapture } from "./botLeftKingCapture";
@@ -8,7 +8,7 @@ export default function kingCapture(
     pieceToJump : data,
     index : number,
     board : data[],
-    kingJumpDirection : string|null,
+    kingJumpDirection : kingJumpDirection,
     forceFeed : data[],
 ) {
     kingTopLeftCapture(pieceToJump, index, board, kingJumpDirection, forceFeed, -9)

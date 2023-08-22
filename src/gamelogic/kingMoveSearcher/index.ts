@@ -1,4 +1,4 @@
-import { data } from "../../data/counting";
+import { data, kingJumpDirection } from "../../types/types";
 
 import { kingBotLeft } from "./kingBotLeft";
 import { kingBotRight } from "./kingBotRight";
@@ -8,7 +8,7 @@ import { kingTopRight } from "./kingTopRight";
 export default function kingMoveSearcher(
     itemToMove: data,
     position: number,
-    kingJumpDirection: string|null,
+    kingJumpDirection: kingJumpDirection,
     board: data[],
     tempArrForMoves: data[],
     tempArrForJumps: data[],

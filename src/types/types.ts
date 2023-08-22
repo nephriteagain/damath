@@ -2,7 +2,13 @@ import { Dispatch } from 'react'
 
 type gameMode = ('INTEGER'|'COUNTING'|'WHOLE'|'')
 
-type kingJumpDirection = (null|'bot left'|'bot right'|'top left'|'top right')
+export enum kingJumpDirection {
+  null,
+  botLeft = 'bot left',
+  botRight = 'bot right',
+  topLeft = 'top left',
+  topRight = 'top right'
+}
 
 export type piece = ('x'|'z'|null)
 export type operation = ('add'|'subtract'|'multiply'|'divide')
@@ -25,7 +31,7 @@ export interface data {
 export interface ReducerType {
     gameMode: gameMode;
     boardData: data[];
-    pieceToMove: data[]|null;
+    pieceToMove: data|null;
     playerOneTurn: boolean;
     playerChipsCount: playerChipsCount;
     gameOver: boolean;
@@ -44,8 +50,46 @@ export interface ReducerType {
 }
 
 export interface action {
-    type: string //TODO:
-    payload: Record<string,any> //TODO:
+    type: actionType
+    payload?: payload
+}
+
+export enum actionType {
+  highlightMoves = 'highlight_moves',
+  setKingJumpDirection = 'set_king_jump_direction',
+  setMultipleCapture = 'set_multiple_capture',
+  setP1Score = 'set_p1_score',
+  setP2Score = 'set_p2_score',
+  movePiece = 'move_piece',
+  restartGame = 'restart_game',
+  resetGame = 'reset_game',
+  // this change the board data
+  changeGameMode = 'change_game_mode',
+  gameOver = 'game_over',
+  start = 'start',
+  nextTurn = 'next_turn',
+  forceCapture = 'force_capture',
+  newBoardData = 'new_board_data',
+  setGameMode = 'set_game_mode'
+}
+
+export interface payload {
+  pieceToMove?: data|null;
+  boardData?: data[];
+  kingJumpDirection?: kingJumpDirection;
+  multipleCapture?: boolean;
+  forceCapture?: boolean;
+  isFirstMove?: boolean;
+  playerOneTurn?: boolean;
+  setPlayerChipsCount?: playerChipsCount;
+  gameOver?: boolean;
+  timesUp?: boolean;
+  p1Score?: number;
+  p2Score?: number;
+  isActive?: boolean;
+  timerOne?: number;
+  timerTwo?: number;
+  currentTimer?: number;
 }
 
 

@@ -21,13 +21,19 @@ import kingCapture from "../gamelogic/additionalCapture/kingCapture"
 // solving logic
 import { solve } from "../gamelogic/formula/solve"
 
-import { ReducerType, data, GameContextProps } from "../types/types"
+import { 
+  ReducerType, 
+  data, 
+  GameContextProps, 
+  actionType, 
+  kingJumpDirection as kingDirection
+} from "../types/types"
 
 import reducer from "../reducer/reducer"
 
 
 
-function randomBool() {
+export function randomBool() {
   return Math.random() < 0.5;
 }
 
@@ -41,7 +47,7 @@ interface GlobalProviderProps {
 const timeLimit = 6000
 const initial : ReducerType = {
   gameMode: 'INTEGER', boardData: INTEGER, pieceToMove: null, playerOneTurn: randomBool(), playerChipsCount: {p1: 12, p2: 12},
-  gameOver: false, multipleCapture: false, forceCapture: false, kingJumpDirection: null, timeLimit: timeLimit, timerOne: timeLimit,
+  gameOver: false, multipleCapture: false, forceCapture: false, kingJumpDirection: kingDirection.null, timeLimit: timeLimit, timerOne: timeLimit,
   timerTwo: timeLimit, isActive: false, currentTimer: 2, isFirstMove: true,
   timeSup: false, playerOneScore: 0, playerTwoScore: 0
 }
@@ -200,11 +206,12 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
   
 
-
-  
-  setPieceToMove({...itemToMove})
-  // setPossibleMoves([...tempArrForMoves])
-  setBoardData([...boardCopy])
+  dispatch({
+    type: actionType.highlightMoves, 
+    payload: {
+      pieceToMove: {...itemToMove},
+      boardData: [...boardCopy]
+  }})
   }
 
   function highlightMovesKing(itemToMove: data, position: number, playerTurn: boolean, board: data[]) {
@@ -311,8 +318,13 @@ tripleTake()
 
 
     // setPossibleMoves([...tempArrForMoves])
-    setBoardData([...tempboard])
-    setPieceToMove({...itemToMove})
+    dispatch({
+      type: actionType.highlightMoves,
+      payload: {
+        pieceToMove: {...itemToMove},
+        boardData: [...tempboard]
+      }
+    })
 
   }
 
@@ -324,7 +336,7 @@ tripleTake()
     let multipleJumpSearcher : data = {}
     let jumpSearcherIndex = -1000
     let jumped = false
-    let jumpDirection: (null|string) = kingJumpDirection
+    let jumpDirection: kingDirection = kingJumpDirection
 
     // find the selected chip
     const chipToMove = boardData.find((item) => {
@@ -382,8 +394,13 @@ tripleTake()
               indexLand === indexEat + 35 ||
               indexLand === indexEat + 42 
             ) {
-              setKingJumpDirection('bot left')
-              jumpDirection = 'bot left'
+              dispatch({
+                type: actionType.setKingJumpDirection,
+                payload: {
+                  kingJumpDirection: kingDirection.botLeft
+                }
+              })
+              jumpDirection = kingDirection.botLeft
             }
             else if
             (
@@ -395,8 +412,13 @@ tripleTake()
               indexLand === indexEat - 35 ||
               indexLand === indexEat - 42 
             ) {
-              setKingJumpDirection('top right')
-              jumpDirection = 'top right'
+              dispatch({
+                type: actionType.setKingJumpDirection,
+                payload: {
+                  kingJumpDirection: kingDirection.topRight
+                }
+              })
+              jumpDirection = kingDirection.topRight
 
             } 
             else if
@@ -410,8 +432,14 @@ tripleTake()
               indexLand === indexEat + 54 || 
               indexLand === indexEat + 63  
             ) {
-              setKingJumpDirection('bot right')
-              jumpDirection = 'bot right'
+              dispatch({
+                type: actionType.setKingJumpDirection,
+                payload: {
+                  kingJumpDirection: kingDirection.botRight
+                }
+              })
+              jumpDirection = kingDirection.botRight
+
 
             }
             else if
@@ -425,8 +453,14 @@ tripleTake()
               indexLand === indexEat - 54 || 
               indexLand === indexEat - 63  
             ) {
-              setKingJumpDirection('top left')
-              jumpDirection = 'top left'
+              dispatch({
+                type: actionType.setKingJumpDirection,
+                payload: {
+                  kingJumpDirection: kingDirection.topLeft
+                }
+              })
+              jumpDirection = kingDirection.topLeft
+
             }
               
           
@@ -466,7 +500,7 @@ tripleTake()
     // setBoardData([...newArr])
     
     let forceFeed : data[] = []
-    function eatMoreChips(pieceToJump: data, index: number, board: data[], pieceJumped: boolean, kingJumpDirection: string|null) {
+    function eatMoreChips(pieceToJump: data, index: number, board: data[], pieceJumped: boolean, kingJumpDirection: kingDirection) {
       if (!pieceJumped) return // only when a piece do a capture that this will run
       forceFeed = []
       if (!pieceToJump.king) {
@@ -484,7 +518,12 @@ tripleTake()
       if (forceFeed.length) {
         // console.log(forceFeed, 'you must eat this again')
         movingPiece = pieceToJump
-        setMultipleCapture(true)
+        dispatch({
+          type: actionType.setMultipleCapture,
+          payload: {
+            multipleCapture: true
+          }
+        })
         forceFeed = forceFeed.filter((force) => {
       if (playerOneTurn) return force.piece === 'z'
       if (!playerOneTurn) return force.piece === 'x'
@@ -534,54 +573,77 @@ tripleTake()
     if (chipToBeTaken?.piece) {
       if (playerOneTurn) {
         const score = solve(chipToBeTaken, pieceToMove, placeToLand) as number
-        setPlayerOneScore(playerOneScore + score)
+        dispatch({
+          type: actionType.setP1Score,
+          payload: {
+            p1Score: playerOneScore + score
+          }
+        })
       }
       if (!playerOneTurn) {
         const score = solve(chipToBeTaken, pieceToMove, placeToLand) as number
-        setPlayerTwoScore(playerTwoScore + score)
+        dispatch({
+          type: actionType.setP2Score,
+          payload: {
+            p2Score: playerTwoScore + score
+          }
+        })
       }
     }
 
-    // console.log(total, 'total')
-    setBoardData([...newBoardData])
-  
-    
-
     // if no additional piece to be take this will end the turn of the player
-    
-    setPieceToMove(null)
-    // setPlayerOneTurn(!playerOneTurn)
-    setForceCapture(false)
-    setIsFirstMove(false)
+    dispatch({
+      type: actionType.movePiece,
+      payload: {
+        boardData: [...newBoardData],
+        pieceToMove: null,
+        forceCapture: false,
+        isFirstMove: false
+      }
+    })
   }
 
   function handleRestart() {
     
-    if (gameMode === 'INTEGER') setBoardData(INTEGER)
-    else if (gameMode === 'WHOLE') setBoardData(WHOLE)
-    else if (gameMode === 'COUNTING') setBoardData(COUNTING)
+    if (gameMode === 'INTEGER') {
+      dispatch({
+        type: actionType.changeGameMode,
+        payload: {
+          boardData: INTEGER
+        }
+      })  
+    }
+    else if (gameMode === 'WHOLE') {
+      dispatch({
+        type: actionType.changeGameMode,
+        payload: {
+          boardData: WHOLE
+        }
+      })  
+    }
+    else if (gameMode === 'COUNTING') {
+      dispatch({
+        type: actionType.changeGameMode,
+        payload: {
+          boardData: COUNTING
+        }
+      })  
+    }
 
-    setPieceToMove(null)
-    // setPossibleMoves([])
-    setPlayerOneTurn(randomBool())
-    setPlayerChipsCount({p1: 12, p2: 12})
-    setGameOver(false)
-    // setJumpedChip(null)
-    setMultipleCapture(false)
-    setForceCapture(false)
-    setKingJumpDirection(null)
-    setIsFirstMove(true)
-    setTimesUp(false)
-    setPlayerOneScore(0)
-    setPlayerTwoScore(0)
+    dispatch({
+      type: actionType.restartGame      
+    })
     handleReset()
   }
 
   function handleReset() {
-    setIsActive(false);
-    setTimerOne(timeLimit);
-    setTimerTwo(timeLimit);
-    setCurrentTimer(1);
+    dispatch({
+      type: actionType.resetGame,
+      payload: {
+        timerOne: timeLimit,
+        timerTwo: timeLimit
+      }
+    })
   };
 
 
@@ -623,20 +685,36 @@ tripleTake()
 
     // if a player has no moves left the game is over
     if (!playerMoveArr.length) {
-      setGameOver(true)
+      dispatch({type: actionType.gameOver})
     }
   }, [playerOneTurn])
 
   // game mode handler
   useEffect(() => {
     if (gameMode === 'INTEGER') {
-      setBoardData(INTEGER)
+      dispatch({
+        type: actionType.changeGameMode,
+        payload: {
+          boardData: INTEGER
+        }
+      })  
+      
     }
     else if (gameMode === 'WHOLE') {
-      setBoardData(WHOLE)
+      dispatch({
+        type: actionType.changeGameMode,
+        payload: {
+          boardData: WHOLE
+        }
+      })  
     }
     else if (gameMode === 'COUNTING') {
-      setBoardData(COUNTING)
+      dispatch({
+        type: actionType.changeGameMode,
+        payload: {
+          boardData: COUNTING
+        }
+      })  
     }
   }, [gameMode])
 

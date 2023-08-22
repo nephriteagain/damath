@@ -1,10 +1,9 @@
-import { data } from "../../../data/counting"
-
+import { kingJumpDirection, data } from './../../../types/types';
 export function kingTopRightCapture(
   pieceToJump : data,
   index : number,
   board : data[],
-  kingJumpDirection : string|null,
+  kingJumpDirection : kingJumpDirection,
   forceFeed : data[],
   number: number
 ) {

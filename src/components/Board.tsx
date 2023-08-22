@@ -24,44 +24,47 @@ import { operationStyling } from "../tsStyle/OperationStyling"
 import { underLining } from "../tsStyle/chipStyling"
 import { cursorPointers } from "../tsStyle/cursorPointers"
 
-import { data } from "../data/counting"
-
+import { data, actionType } from "../types/types"
 function Board() {
 
   const { 
     boardData,
-    setBoardData, 
     highlightMoves, 
     movePiece, 
     pieceToMove,
     highlightMovesKing, 
     playerOneTurn,
-    setPlayerOneTurn,
     multipleCapture,
-    setMultipleCapture,
     forceCapture,
-    setForceCapture,
-    setKingJumpDirection,
-    setIsActive,
     isFirstMove,
+    dispatch
   } = useGlobalContext()
 
   function handleStart() {
-    setIsActive(true);
+    dispatch({type: actionType.start})
   };
 
   // player turn handler and force capture handler
   useEffect(() => {
     
     if (multipleCapture) {
-      setMultipleCapture(false)
+      dispatch({
+        type: actionType.setMultipleCapture,
+        payload: {
+          multipleCapture: false
+        }
+      })
       return
     }
     
     if (pieceToMove !== null) return
     if (pieceToMove === null) {
-      setPlayerOneTurn(!playerOneTurn)
-      setKingJumpDirection(null)
+      dispatch({
+        type: actionType.nextTurn,
+        payload: {
+          playerOneTurn: !playerOneTurn
+        }
+      })
     }
     if (forceCapture) return //this wont rerun again multiple times
     let forceFeed : data[] = []
@@ -164,22 +167,27 @@ if (forceFeed3rd.length) forceFeed = forceFeed3rd
 
 
     if (forceFeed.length) {
-      setForceCapture(true)
+      dispatch({type: actionType.forceCapture})
       const boardDataCopy = boardData.map((item, index) => {
         if (!item.playable) return item
         if(!item === null) return item
         if (playerOneTurn && item?.piece === 'z') return item
         if (!playerOneTurn && item?.piece === 'x') return item
-
+        
         else if (forceFeed.indexOf(item) > - 1) {
           return {...item, movable: true}
         }
-
-
+        
+        
         return {...item, movable: false}
       })
-
-      setBoardData(boardDataCopy)
+      
+      dispatch({
+        type: actionType.newBoardData,
+        payload: {
+          boardData: boardDataCopy
+        }
+      })
     }
   
   }, [pieceToMove])
