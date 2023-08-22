@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, useEffect, ReactNode } from "react"
+import { useContext, createContext, useState, useEffect, ReactNode, useReducer } from "react"
 import { compileString } from "sass"
 
 import { POSSIBLEJUMPS } from "../data/possibleJumps"
@@ -82,7 +82,6 @@ interface GlobalProviderProps {
 }
 
 export const GlobalProvider = ({children}: GlobalProviderProps) => {
-
   
   const [ gameMode, setGameMode ] = useState<gameMode>('INTEGER')
   const [ boardData, setBoardData ] = useState<data[]>(INTEGER)
@@ -539,7 +538,6 @@ tripleTake()
     
 
     eatMoreChips(multipleJumpSearcher, jumpSearcherIndex, newBoardData, jumped, jumpDirection)
-    console.log(forceFeed, 'context forcefeed')
 
 
     function kingPromotionChecker() {
@@ -686,9 +684,6 @@ tripleTake()
       gameOver,
       setGameOver,
       playerChipsCount,
-      // setPossibleMoves,
-      // jumpedChip,
-      // setJumpedChip,
       multipleCapture,
       setMultipleCapture,
       forceCapture,
