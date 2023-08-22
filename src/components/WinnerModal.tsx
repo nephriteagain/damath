@@ -96,7 +96,7 @@ function WinnerModal() {
         <p className='score-p1'>Player One Remaining Chips Total: <span className='scores'>{remainOneTotal}</span></p>
         <p className='score-p1 total'>Player One Total Score: <span className='scores total'>{displayTotalOne}</span></p>
 
-        {playerOneRemain.length && 
+        {playerOneRemain.length > 0 && 
         <div className='chips-p1'>
           {playerOneRemain.map((item,index) => {
             if (item.type === 'normal') return <div className='p1' key={index}>{item.value}</div>
@@ -108,7 +108,7 @@ function WinnerModal() {
         <p className='score-p2'>Player Two Remaining Chips Total: <span className='scores'>{remainTwoTotal}</span></p>
         <p className='score-p2 total'>Player Two Total Score: <span className='scores total'>{displayTotalTwo}</span></p>
 
-        {playerTwoRemain.length && 
+        {playerTwoRemain.length > 0 && 
         <div className='chips-p2'>
           {playerTwoRemain.map((item,index) => {
             if (item.type === 'normal') return <div className='p2' key={index}>{item.value}</div>

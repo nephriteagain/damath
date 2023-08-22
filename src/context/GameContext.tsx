@@ -1,6 +1,5 @@
 import { useContext, createContext, useState, useEffect, ReactNode } from "react"
 import { compileString } from "sass"
-import Gameboard from "../components/Gameboard"
 
 import { POSSIBLEJUMPS } from "../data/possibleJumps"
 
@@ -35,10 +34,6 @@ import type { data } from "../data/counting"
 type gameMode = ('INTEGER'|'COUNTING'|'WHOLE'|'')
 
 type kingJumpDirection = (null|'bot left'|'bot right'|'top left'|'top right')
-
-type GlobalContextProviderProps = {
-  children: ReactNode
-}
 
 interface GameContextProps {
   gameMode: gameMode;
@@ -90,7 +85,11 @@ function randomBool() {
 
 const GlobalContext = createContext<GameContextProps>({} as GameContextProps)
 
-export const GlobalProvider = ({children}: GlobalContextProviderProps) => {
+interface GlobalProviderProps {
+  children: ReactNode
+}
+
+export const GlobalProvider = ({children}: GlobalProviderProps) => {
 
   
   const [ gameMode, setGameMode ] = useState<gameMode>('INTEGER')
@@ -748,7 +747,7 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
       playerTwoScore,
       setPlayerOneScore,
       setPlayerTwoScore
-    }}
+    } as GameContextProps}
     >
       {children}
     </GlobalContext.Provider>

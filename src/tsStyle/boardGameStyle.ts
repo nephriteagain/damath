@@ -8,7 +8,7 @@ export function boardStyling(
   if (!item.playable) {
     boardStyle.background = 'linear-gradient(to top left, #111 0%, rgba(0, 0, 0, 0.80) 75%' 
   } else if (item?.highlighted) {
-    boardStyle.backgroundColor = '#ccccff'
+    boardStyle.backgroundColor = '#c7f2c7'
     boardStyle.cursor = 'pointer'
   } else if (item?.selected) {
     boardStyle.backgroundColor = '#6CD486'
