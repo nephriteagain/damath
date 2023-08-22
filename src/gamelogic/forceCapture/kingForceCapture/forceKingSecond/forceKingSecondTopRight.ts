@@ -12,118 +12,44 @@ export function forceKingTopRight(
   forceFeed : data[],
   number : number
 ) {
-
   if (!itemToMove.king) return
 
-  const moveOne = boardData[jumpIndex + number]
-  const moveTwo = boardData[jumpIndex + (number * 2)]
-  const moveThree = boardData[jumpIndex + (number * 3)]
-  const moveFour = boardData[jumpIndex + (number * 4)]
-  const moveFive = boardData[jumpIndex + (number * 5)]
-  const moveSix = boardData[jumpIndex + (number * 6)]
-  const moveSeven = boardData[jumpIndex + (number * 7)]
+  const movePos = index + number;
+  const jumpPos = index + (number - 7)
 
+  if (movePos > 63 || movePos < 0 || jumpDirection[index] === 'bot left') {
+    return
+  }
+
+  if (number % 7 !== 0 || number > 0) {
+    throw new Error('use number negative divisible by 7')
+  }
+
+  const move = boardData[movePos];
+  const jump = boardData[jumpPos];
 
   if (
-  moveTwo?.playable &&
-  moveTwo?.piece === null &&
-  moveOne?.piece !== null &&
-  moveOne?.piece !== itemToMove?.piece &&
-  jumpDirection[index] !== 'bot left'
+    move?.piece !== null && move?.piece !== itemToMove?.piece &&
+    jump?.playable && jump?.piece === null
   ) {
-    jumpedArr2nd.push(moveTwo)
+    jumpedArr2nd.push(jump)
     forceFeed2nd.push(forceFeed[index])
-    number === -7 && jumpDirection2nd.push('top right')
-    
+    number % 7 === 0 && number < 0 && jumpDirection2nd.push('top right')
   }
-  if (
-  moveThree?.playable &&
-  moveThree?.piece === null &&
-  moveTwo?.piece !== null &&
-  moveTwo?.piece !== itemToMove?.piece &&
-  moveOne?.playable &&
-  moveOne?.piece === null &&
-  jumpDirection[index] !== 'bot left'
-  ) {
-    jumpedArr2nd.push(moveThree)
-    forceFeed2nd.push(forceFeed[index])
-    number === -7 && jumpDirection2nd.push('top right')
-    
+  
+  if (move?.piece === null && move?.playable) {
+    forceKingTopRight(
+      itemToMove,
+      index,
+      boardData,
+      jumpIndex,
+      jumpDirection,
+      jumpedArr2nd,
+      jumpDirection2nd,
+      forceFeed2nd,
+      forceFeed,
+      number - 7
+    )
   }
-  if (
-  moveFour?.playable &&
-  moveFour?.piece === null &&
-  moveThree?.piece !== null &&
-  moveThree?.piece !== itemToMove?.piece &&
-  moveTwo?.playable &&
-  moveTwo?.piece === null &&
-  moveOne?.playable &&
-  moveOne?.piece === null &&
-  jumpDirection[index] !== 'bot left'
-  ) {
-    jumpedArr2nd.push(moveFour)
-    forceFeed2nd.push(forceFeed[index])
-    number === -7 && jumpDirection2nd.push('top right')
-    
-  }
-  if (
-  moveFive?.playable &&
-  moveFive?.piece === null &&
-  moveFour?.piece !== null &&
-  moveFour?.piece !== itemToMove?.piece &&
-  moveThree?.playable &&
-  moveThree?.piece === null &&
-  moveTwo?.playable &&
-  moveTwo?.piece === null &&
-  moveOne?.playable &&
-  moveOne?.piece === null &&
-  jumpDirection[index] !== 'bot left'
-  ) {
-    jumpedArr2nd.push(moveFive)
-    forceFeed2nd.push(forceFeed[index])
-    number === -7 && jumpDirection2nd.push('top right')
-    
-  }
-  if (
-  moveSix?.playable &&
-  moveSix?.piece === null &&
-  moveFive?.piece !== null &&
-  moveFive?.piece !== itemToMove?.piece &&
-  moveFour?.playable &&
-  moveFour?.piece === null &&
-  moveThree?.playable &&
-  moveThree?.piece === null &&
-  moveTwo?.playable &&
-  moveTwo?.piece === null &&
-  moveOne?.playable &&
-  moveOne?.piece === null &&
-  jumpDirection[index] !== 'bot left'
-  ) {
-    jumpedArr2nd.push(moveSix)
-    forceFeed2nd.push(forceFeed[index])
-    number === -7 && jumpDirection2nd.push('top right')
-    
-  }
-  if (
-  moveSeven?.playable &&
-  moveSeven?.piece === null &&
-  moveSix?.piece !== null &&
-  moveSix?.piece !== itemToMove?.piece &&
-  moveFive?.playable &&
-  moveFive?.piece === null &&
-  moveFour?.playable &&
-  moveFour?.piece === null &&
-  moveThree?.playable &&
-  moveThree?.piece === null &&
-  moveTwo?.playable &&
-  moveTwo?.piece === null &&
-  moveOne?.playable &&
-  moveOne?.piece === null &&
-  jumpDirection[index] !== 'bot left'
-  ) {
-    jumpedArr2nd.push(moveSeven)
-    forceFeed2nd.push(forceFeed[index])
-    number === -7 && jumpDirection2nd.push('top right')
-    
-  }
-            }
+
+}

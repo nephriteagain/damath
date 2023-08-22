@@ -11,7 +11,6 @@ import { foreCaptureSecond } from "../gamelogic/forceCapture/forceCapture/forceC
 import { forceCaptureThird } from "../gamelogic/forceCapture/forceCapture/forceCaptureThird"
 
 // king chips
-import { forceKingCapture } from "../gamelogic/forceCapture/kingForceCapture/forceKingFirst/forceKingFirst"
 import { forceKingBotLeft } from "../gamelogic/forceCapture/kingForceCapture/forceKingSecond/forceKingSecondBotLeft"
 import { forceKingBotRight } from "../gamelogic/forceCapture/kingForceCapture/forceKingSecond/forceKingSecondBotRight"
 import { forceKingTopLeft } from "../gamelogic/forceCapture/kingForceCapture/forceKingSecond/forceKingSecondTopLeft"
@@ -20,6 +19,10 @@ import { forceKingThirdBotLeft } from "../gamelogic/forceCapture/kingForceCaptur
 import { forceKingThirdBotRight } from "../gamelogic/forceCapture/kingForceCapture/forceKingThird/forceKingThirdBotRight"
 import { forceKingThirdTopLeft } from "../gamelogic/forceCapture/kingForceCapture/forceKingThird/forceKingThirdTopLeft"
 import { forceKingThirdTopRight } from "../gamelogic/forceCapture/kingForceCapture/forceKingThird/forceKingThirdTopRight"
+
+import forceKingCaptureFirst from '../gamelogic/forceCapture/kingForceCapture/forceKingFirst'
+import forceKingCaptureSecond from "../gamelogic/forceCapture/kingForceCapture/forceKingSecond"
+import forceKingCaptureThird from "../gamelogic/forceCapture/kingForceCapture/forceKingThird"
 
 // gameboard style
 import { boardStyling } from "../tsStyle/boardGameStyle"
@@ -93,11 +96,8 @@ function Board() {
       
     }
       else if (item.king) {
+        forceKingCaptureFirst(item, index, boardData, forceFeed, jumpDirection, jumpedArr)
       }
-      forceKingCapture(item, index, boardData, forceFeed, jumpDirection, jumpedArr, -7)
-      forceKingCapture(item, index, boardData, forceFeed, jumpDirection, jumpedArr, -9)
-      forceKingCapture(item, index, boardData, forceFeed, jumpDirection, jumpedArr, 7)
-      forceKingCapture(item, index, boardData, forceFeed, jumpDirection, jumpedArr, 9)
       
       })
 
@@ -124,12 +124,10 @@ function Board() {
           foreCaptureSecond(itemToMove, index, boardData, jumpIndex, jumpDirection2nd, forceFeed2nd, jumpDirection, jumpedArr2nd, forceFeed, -9)
           foreCaptureSecond(itemToMove, index, boardData, jumpIndex, jumpDirection2nd, forceFeed2nd, jumpDirection, jumpedArr2nd, forceFeed, 7)
           foreCaptureSecond(itemToMove, index, boardData, jumpIndex, jumpDirection2nd, forceFeed2nd, jumpDirection, jumpedArr2nd, forceFeed, 9)
-      }
+          }
+          
           else if (itemToMove.king) {
-            forceKingBotLeft(itemToMove, index, boardData, jumpIndex, jumpDirection, jumpedArr2nd, jumpDirection2nd, forceFeed2nd, forceFeed, 7)
-            forceKingBotRight(itemToMove, index, boardData, jumpIndex, jumpDirection, jumpedArr2nd, jumpDirection2nd, forceFeed2nd, forceFeed, 9)
-            forceKingTopLeft(itemToMove, index, boardData, jumpIndex, jumpDirection, jumpedArr2nd, jumpDirection2nd, forceFeed2nd, forceFeed, -9)
-            forceKingTopRight(itemToMove, index, boardData, jumpIndex, jumpDirection, jumpedArr2nd, jumpDirection2nd, forceFeed2nd, forceFeed, -7)
+            forceKingCaptureSecond(itemToMove, index, boardData, jumpIndex, jumpDirection, jumpedArr2nd, jumpDirection2nd, forceFeed2nd, forceFeed)
           }
       })
     }
@@ -165,10 +163,7 @@ function tripleTake() {
       forceCaptureThird(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd, 9)
 }
     else if (item.king) {
-      forceKingThirdBotLeft(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd, 7)
-      forceKingThirdBotRight(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd, 9)
-      forceKingThirdTopLeft(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd, -9)
-      forceKingThirdTopRight(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd, -7)
+      forceKingCaptureThird(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd)
     }
   })
 
