@@ -7,7 +7,7 @@ export function ScoreOne() {
 
   let displayScore = playerOneScore
   if (playerOneScore % 1 !== 0 && playerOneScore.toString().split('.')[1]?.length >= 3) {
-    displayScore = playerOneScore.toFixed(2)
+    displayScore = Number(playerOneScore.toFixed(2))
   }
 
   return (
@@ -25,7 +25,7 @@ export function ScoreTwo() {
 
   let displayScore = playerTwoScore
   if (playerTwoScore % 1 !== 0 && playerTwoScore.toString().split('.')[1]?.length >= 3) {
-    displayScore = playerTwoScore.toFixed(2)
+    displayScore = Number(playerTwoScore.toFixed(2))
   }
 
   return (

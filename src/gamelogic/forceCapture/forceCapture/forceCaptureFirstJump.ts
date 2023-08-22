@@ -1,5 +1,5 @@
 import { data } from "../../../data/counting"
-
+// TODO: recurse all forcecaptures regular to third into single thing
 export function forceCaptureRegular(
   item : data,
   index : number,

@@ -3,11 +3,15 @@ import { useGlobalContext } from "../context/GameContext"
 
 import '../sass/WinnerModal.scss'
 
+type item = {
+  value: number,
+  type: string
+}
 
 function WinnerModal() {
 
-  const [ playerOneRemain, setPlayerOneRemain ] = useState([])
-  const [ playerTwoRemain, setPlayerTwoRemain ] = useState([])
+  const [ playerOneRemain, setPlayerOneRemain ] = useState<item[]>([])
+  const [ playerTwoRemain, setPlayerTwoRemain ] = useState<item[]>([])
 
   const [ remainOneTotal, setRemainOneTotal] = useState(0)
   const [ remainTwoTotal, setRemainTwoTotal] = useState(0)
@@ -16,8 +20,7 @@ function WinnerModal() {
   const [ twoGrandTotal, setTwoGrandTotal ] = useState(0)
 
   const { playerOneTurn, handleRestart, gameMode, timeSup, playerOneScore, playerTwoScore, boardData, gameOver, setPlayerOneScore, setPlayerTwoScore } = useGlobalContext()
-
-
+  
   
 
   useEffect(() => {
@@ -26,29 +29,35 @@ function WinnerModal() {
   let totalOne = 0
   let totalTwo = 0
   
-  let remainingChipsOne = []
-  let remainingChipsTwo = []
+ 
+
+  let remainingChipsOne : item[] = []
+  let remainingChipsTwo : item[] = []
 
   boardData.forEach(item => {
     if (!item?.playable) return
     if (item?.piece === null) return
 
     if (item?.piece === 'z' && !item?.king) {
-      totalOne = totalOne +  item?.value
-      remainingChipsOne.push({value: item?.value, type: 'normal'})
+      const value = item?.value as number
+      totalOne = totalOne +  value
+      remainingChipsOne.push({value, type: 'normal'})
     }
     if (item?.piece === 'z' && item?.king) {
-      totalOne = totalOne +  (item?.value * 2)
-      remainingChipsOne.push({value: item?.value, type: 'king'})
+      const value = item?.value as number
+      totalOne = totalOne +  (value * 2)
+      remainingChipsOne.push({value, type: 'king'})
     }
     if (item?.piece === 'x' && !item?.king) {
-      totalTwo = totalTwo +  item?.value
-      remainingChipsTwo.push({value: item?.value, type: 'normal'})
+      const value = item?.value as number
+      totalTwo = totalTwo +  value
+      remainingChipsTwo.push({value, type: 'normal'})
 
     }
     if (item?.piece === 'x' && item?.king) {
-      totalTwo = totalTwo +  (item?.value * 2)
-      remainingChipsTwo.push({value: item?.value, type: 'king'})
+      const value = item?.value as number
+      totalTwo = totalTwo +  (value * 2)
+      remainingChipsTwo.push({value, type: 'king'})
     }
     
   })
@@ -66,12 +75,12 @@ function WinnerModal() {
 
   let displayScoreOne = playerOneScore
   if (playerOneScore % 1 !== 0 && playerOneScore.toString().split('.')[1]?.length >= 3) {
-    displayScoreOne = playerOneScore.toFixed(2)
+    displayScoreOne = Number(playerOneScore.toFixed(2))
   }
 
   let displayScoreTwo = playerTwoScore
   if (playerTwoScore % 1 !== 0 && playerTwoScore.toString().split('.')[1]?.length >= 3) {
-    displayScoreTwo = playerTwoScore.toFixed(2)
+    displayScoreTwo = Number(playerTwoScore.toFixed(2))
   }
 
    let displayTotalOne : (number|string) = oneGrandTotal

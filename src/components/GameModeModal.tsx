@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, ChangeEvent } from 'react'
 
 import {AiOutlineInfoCircle} from 'react-icons/ai'
 import { BsFillFileRuledFill } from 'react-icons/bs'
@@ -7,8 +7,11 @@ import { RiTimerFlashLine } from 'react-icons/ri'
 import { useGlobalContext } from "../context/GameContext"
 import '../sass/GameModeModal.scss'
 
+interface GameModeModalProps {
+  showRules: () => void
+}
 
-const GameModeModal = ({ showRules }) => {
+const GameModeModal = ({ showRules }: GameModeModalProps) => {
 
 
   const {
@@ -21,17 +24,17 @@ const GameModeModal = ({ showRules }) => {
   } = useGlobalContext()
 
 
-  const wholeRef = useRef()
-  const integerRef = useRef()
-  const countingRef = useRef()
+  const wholeRef = useRef<HTMLButtonElement>(null)
+  const integerRef = useRef<HTMLButtonElement>(null)
+  const countingRef = useRef<HTMLButtonElement>(null)
 
   const gameModeRef = useRef('')
-  const alertRef = useRef()
-  const dropdropRef = useRef()
+  const alertRef = useRef<HTMLDivElement>(null)
+  const dropdropRef = useRef<HTMLSelectElement>(null)
 
 
 
-  function handleSelectChange(event) {
+  function handleSelectChange(event: ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
     let selectedValue = event.target.value
 
@@ -55,7 +58,8 @@ const GameModeModal = ({ showRules }) => {
         setTimeLimit(3000)
         break;
     }
-    dropdropRef.current.style.opacity = '0'
+    const element = dropdropRef.current as HTMLSelectElement
+    element.style.opacity  = '0'
   }
 
 
@@ -68,24 +72,36 @@ const GameModeModal = ({ showRules }) => {
 
 
   function selectCountingMode() {
-    integerRef.current.classList.remove('selected-mode')
-    wholeRef.current.classList.remove('selected-mode')
-    countingRef.current.classList.add('selected-mode')
+    const intEl = integerRef.current as HTMLButtonElement
+    const wholeEl = wholeRef.current as HTMLButtonElement
+    const countingEl = countingRef.current as HTMLButtonElement
+
+    intEl.classList.remove('selected-mode')
+    wholeEl.classList.remove('selected-mode')
+    countingEl.classList.add('selected-mode')
 
     gameModeRef.current = 'COUNTING'
   }
 
   function selectWholeMode() {
-    countingRef.current.classList.remove('selected-mode')
-    integerRef.current.classList.remove('selected-mode')
-    wholeRef.current.classList.add('selected-mode')
+    const intEl = integerRef.current as HTMLButtonElement
+    const wholeEl = wholeRef.current as HTMLButtonElement
+    const countingEl = countingRef.current as HTMLButtonElement
+
+    countingEl.classList.remove('selected-mode')
+    intEl.classList.remove('selected-mode')
+    wholeEl.classList.add('selected-mode')
 
     gameModeRef.current = 'WHOLE'
   }
   function selectIntegerMode() {
-    countingRef.current.classList.remove('selected-mode')
-    wholeRef.current.classList.remove('selected-mode')
-    integerRef.current.classList.add('selected-mode')
+    const intEl = integerRef.current as HTMLButtonElement
+    const wholeEl = wholeRef.current as HTMLButtonElement
+    const countingEl = countingRef.current as HTMLButtonElement
+
+    countingEl.classList.remove('selected-mode')
+    wholeEl.classList.remove('selected-mode')
+    intEl.classList.add('selected-mode')
 
     gameModeRef.current = 'INTEGER'
   }
@@ -99,15 +115,16 @@ const GameModeModal = ({ showRules }) => {
       setGameMode(gameModeRef.current)
       
     } else {
-      alertRef.current.style.transform = 'translate(-50%, 0%)'
+      const alertEl = alertRef.current as HTMLDivElement
+      alertEl.style.transform = 'translate(-50%, 0%)'
       setTimeout(() => {
-        alertRef.current.style.transform = 'translate(-50%, -500%)'
+        alertEl.style.transform = 'translate(-50%, -500%)'
       }, 3000)
     }
   }
 
 
-  function formatTime (deciseconds) {
+  function formatTime (deciseconds: number) {
     if (deciseconds === Infinity) return 'Unlimited'
     const minutes = Math.floor(deciseconds / 600);
     const seconds = Math.floor((deciseconds % 600) / 10);
@@ -120,12 +137,13 @@ const GameModeModal = ({ showRules }) => {
   
 
   function showTimer() {
-    const dropdown = window.getComputedStyle(dropdropRef.current)
+    const dropdownEl = dropdropRef.current as HTMLSelectElement
+    const dropdown = window.getComputedStyle(dropdownEl)
     const opacity = dropdown.opacity
     if (opacity === '0') {
-      dropdropRef.current.style.opacity = '1'
+      dropdownEl.style.opacity = '1'
     } else {
-      dropdropRef.current.style.opacity = '0'
+      dropdownEl.style.opacity = '0'
   }
 }
 

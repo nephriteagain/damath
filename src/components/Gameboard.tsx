@@ -15,7 +15,11 @@ import Board from "./Board"
 
 import '../sass/Gameboard.scss'
 
-function Gameboard({showRules}) {
+interface GameboardProps {
+  showRules: () => void
+}
+
+function Gameboard({showRules}: GameboardProps) {
 
 
 
@@ -51,7 +55,7 @@ function Gameboard({showRules}) {
   
   // timer countdown handler
   useEffect(() => {
-    let interval = null;
+    let interval : any = null;
     if  (isActive && getCurrentTimer() === 0) setTimesUp(true)
     if (isActive && getCurrentTimer() > 0) {
       interval = setInterval(() => {

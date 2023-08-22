@@ -5,24 +5,30 @@ import '../sass/Timer.scss';
 import { FlipNumberButton } from './FlipNumbers';
 import { ScoreTwo } from './Score';
 
-function TimerTwo({ timerTwo, currentTimer }) {
+interface TimerTwoProps {
+  timerTwo: number;
+  currentTimer: number
+}
+
+function TimerTwo({ timerTwo, currentTimer }: TimerTwoProps) {
   
 
 
-  const timerRef = useRef()
+  const timerRef = useRef<HTMLDivElement>(null)
 
 
     function rotateClock() {
-    const timerStyle = window.getComputedStyle(timerRef.current)
-    const rotate = timerStyle.transform
-    if (rotate === 'matrix(-1, 0, 0, -1, 0, 0)') {
-      timerRef.current.style.transform = 'rotate(0deg)'
-    } else {
-      timerRef.current.style.transform = 'rotate(180deg)'
-    }
+      const el = timerRef.current as HTMLDivElement
+      const timerStyle = window.getComputedStyle(el)
+      const rotate = timerStyle.transform
+      if (rotate === 'matrix(-1, 0, 0, -1, 0, 0)') {
+        el.style.transform = 'rotate(0deg)'
+      } else {
+        el.style.transform = 'rotate(180deg)'
+      }
   }
 
-  function formatTime(deciseconds) {
+  function formatTime(deciseconds: number) {
     if (deciseconds === Infinity) return 'Unlimited'
     const minutes = Math.floor(deciseconds / 600);
     const seconds = Math.floor((deciseconds % 600) / 10);
@@ -32,12 +38,13 @@ function TimerTwo({ timerTwo, currentTimer }) {
 
   
   useEffect(() => {
+    const el = timerRef.current as HTMLDivElement
     if (currentTimer === 2) {
-      timerRef.current.style.backgroundColor = 'blue'
-      timerRef.current.style.color = '#fff'
+      el.style.backgroundColor = 'blue'
+      el.style.color = '#fff'
     } else {
-      timerRef.current.style.backgroundColor = '#fff'
-      timerRef.current.style.color = '#000'
+      el.style.backgroundColor = '#fff'
+      el.style.color = '#000'
     }
   }, [currentTimer])
 

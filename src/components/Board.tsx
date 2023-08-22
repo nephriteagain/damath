@@ -6,20 +6,13 @@ import { useGlobalContext } from "../context/GameContext"
 import '../sass/Board.scss'
 
 // regular chips
-import { forceCaptureRegular } from "../gamelogic/forceCapture/forceCapture/forceCaptureFirstJump"
-import { foreCaptureSecond } from "../gamelogic/forceCapture/forceCapture/forceCaptureSecond"
-import { forceCaptureThird } from "../gamelogic/forceCapture/forceCapture/forceCaptureThird"
+import { 
+  forceCaptureFirstAll, 
+  forceCaptureSecondAll, 
+  forceCaptureThirdAll 
+} from "../gamelogic/forceCapture/forceCapture"
 
 // king chips
-import { forceKingBotLeft } from "../gamelogic/forceCapture/kingForceCapture/forceKingSecond/forceKingSecondBotLeft"
-import { forceKingBotRight } from "../gamelogic/forceCapture/kingForceCapture/forceKingSecond/forceKingSecondBotRight"
-import { forceKingTopLeft } from "../gamelogic/forceCapture/kingForceCapture/forceKingSecond/forceKingSecondTopLeft"
-import { forceKingTopRight } from "../gamelogic/forceCapture/kingForceCapture/forceKingSecond/forceKingSecondTopRight"
-import { forceKingThirdBotLeft } from "../gamelogic/forceCapture/kingForceCapture/forceKingThird/forceKingThirdBotLeft"
-import { forceKingThirdBotRight } from "../gamelogic/forceCapture/kingForceCapture/forceKingThird/forceKingThirdBotRight"
-import { forceKingThirdTopLeft } from "../gamelogic/forceCapture/kingForceCapture/forceKingThird/forceKingThirdTopLeft"
-import { forceKingThirdTopRight } from "../gamelogic/forceCapture/kingForceCapture/forceKingThird/forceKingThirdTopRight"
-
 import forceKingCaptureFirst from '../gamelogic/forceCapture/kingForceCapture/forceKingFirst'
 import forceKingCaptureSecond from "../gamelogic/forceCapture/kingForceCapture/forceKingSecond"
 import forceKingCaptureThird from "../gamelogic/forceCapture/kingForceCapture/forceKingThird"
@@ -60,7 +53,6 @@ function Board() {
   // player turn handler and force capture handler
   useEffect(() => {
     
-
     if (multipleCapture) {
       setMultipleCapture(false)
       return
@@ -89,17 +81,12 @@ function Board() {
       if (item?.piece === null) return
       // regular pawn only
       else if (!item.king) {
-        forceCaptureRegular(item, index, boardData, forceFeed, jumpDirection, jumpedArr, -7)
-        forceCaptureRegular(item, index, boardData, forceFeed, jumpDirection, jumpedArr, -9)
-        forceCaptureRegular(item, index, boardData, forceFeed, jumpDirection, jumpedArr, 9)
-        forceCaptureRegular(item, index, boardData, forceFeed, jumpDirection, jumpedArr, 7)
-      
+        forceCaptureFirstAll(item, index, boardData, forceFeed, jumpDirection, jumpedArr)
     }
       else if (item.king) {
         forceKingCaptureFirst(item, index, boardData, forceFeed, jumpDirection, jumpedArr)
-      }
-      
-      })
+      }      
+    })
 
 
 // second jump --------------------------------------------------------------------
@@ -120,10 +107,7 @@ function Board() {
     arrToJump.forEach((itemToMove, index) => {
         const jumpIndex = arrToJumpIndices[index]
           if (!itemToMove.king) {
-          foreCaptureSecond(itemToMove, index, boardData, jumpIndex, jumpDirection2nd, forceFeed2nd, jumpDirection, jumpedArr2nd, forceFeed, -7)
-          foreCaptureSecond(itemToMove, index, boardData, jumpIndex, jumpDirection2nd, forceFeed2nd, jumpDirection, jumpedArr2nd, forceFeed, -9)
-          foreCaptureSecond(itemToMove, index, boardData, jumpIndex, jumpDirection2nd, forceFeed2nd, jumpDirection, jumpedArr2nd, forceFeed, 7)
-          foreCaptureSecond(itemToMove, index, boardData, jumpIndex, jumpDirection2nd, forceFeed2nd, jumpDirection, jumpedArr2nd, forceFeed, 9)
+            forceCaptureSecondAll(itemToMove, index, boardData, jumpIndex, jumpDirection2nd, forceFeed2nd, jumpDirection, jumpedArr2nd, forceFeed)
           }
           
           else if (itemToMove.king) {
@@ -157,11 +141,8 @@ function tripleTake() {
   arrToJump3rd.forEach((item, index) => {
     const jumpIndex = arrToJumpIndices[index]
     if (!item.king) {
-      forceCaptureThird(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd, -7)
-      forceCaptureThird(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd, -9)
-      forceCaptureThird(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd, 7)
-      forceCaptureThird(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd, 9)
-}
+      forceCaptureThirdAll(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd)
+    }
     else if (item.king) {
       forceKingCaptureThird(item, index, boardData, jumpIndex, jumpDirection2nd, forceFeed3rd, forceFeed2nd)
     }
