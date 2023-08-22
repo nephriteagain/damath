@@ -22,7 +22,7 @@ export function kingTopRight(
   }
 
   if (
-    nextMove && move?.piece !== null && move?.piece !== itemToMove.piece &&
+    move?.piece !== null && move?.piece !== itemToMove.piece &&
     nextMove?.playable && nextMove?.piece === null && !jumped   
   ) {
     tempArrForJumps.push(nextMove)

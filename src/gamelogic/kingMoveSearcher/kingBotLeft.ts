@@ -21,7 +21,7 @@ export function kingBotLeft(
   const move = board[movePos]
   const nextMove = board[jumpPos]
   if (
-    nextMove && move?.piece !== null && move?.piece !== itemToMove.piece &&
+    move?.piece !== null && move?.piece !== itemToMove.piece &&
     nextMove?.playable && nextMove?.piece === null && !jumped   
   ) {
     tempArrForJumps.push(nextMove)
