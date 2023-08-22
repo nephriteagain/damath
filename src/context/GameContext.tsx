@@ -21,55 +21,11 @@ import kingCapture from "../gamelogic/additionalCapture/kingCapture"
 // solving logic
 import { solve } from "../gamelogic/formula/solve"
 
-import type { data } from "../data/counting"
+import { ReducerType, data, GameContextProps } from "../types/types"
 
-type gameMode = ('INTEGER'|'COUNTING'|'WHOLE'|'')
+import reducer from "../reducer/reducer"
 
-type kingJumpDirection = (null|'bot left'|'bot right'|'top left'|'top right')
 
-interface GameContextProps {
-  gameMode: gameMode;
-  setGameMode: React.Dispatch<React.SetStateAction<gameMode>>;
-  boardData: data[];
-  setBoardData: React.Dispatch<React.SetStateAction<data[]>>;
-  pieceToMove: data | null;
-  setPieceToMove: React.Dispatch<React.SetStateAction<data | null>>;
-  playerOneTurn: boolean;
-  setPlayerOneTurn: React.Dispatch<React.SetStateAction<boolean>>;
-  playerChipsCount: { p1: number; p2: number };
-  setPlayerChipsCount: React.Dispatch<React.SetStateAction<{ p1: number; p2: number }>>;
-  gameOver: boolean;
-  setGameOver: React.Dispatch<React.SetStateAction<boolean>>;
-  multipleCapture: boolean;
-  setMultipleCapture: React.Dispatch<React.SetStateAction<boolean>>;
-  forceCapture: boolean;
-  setForceCapture: React.Dispatch<React.SetStateAction<boolean>>;
-  kingJumpDirection: kingJumpDirection | null;
-  setKingJumpDirection: React.Dispatch<React.SetStateAction<kingJumpDirection | null>>;
-  timeLimit: number;
-  setTimeLimit: React.Dispatch<React.SetStateAction<number>>;
-  timerOne: number;
-  setTimerOne: React.Dispatch<React.SetStateAction<number>>;
-  timerTwo: number;
-  setTimerTwo: React.Dispatch<React.SetStateAction<number>>;
-  isActive: boolean;
-  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
-  currentTimer: number;
-  setCurrentTimer: React.Dispatch<React.SetStateAction<number>>;
-  isFirstMove: boolean;
-  setIsFirstMove: React.Dispatch<React.SetStateAction<boolean>>;
-  timeSup: boolean;
-  setTimesUp: React.Dispatch<React.SetStateAction<boolean>>;
-  playerOneScore: number;
-  setPlayerOneScore: React.Dispatch<React.SetStateAction<number>>;
-  playerTwoScore: number;
-  setPlayerTwoScore: React.Dispatch<React.SetStateAction<number>>;
-  highlightMoves: (itemToMove: data, position: number, playerTurn: boolean, board: data[]) => void;
-  highlightMovesKing: (itemToMove: data, position: number, playerTurn: boolean, board: data[]) => void;
-  movePiece: (pieceToMove: data, placeToLand: data, index: number) => void;
-  handleRestart: () => void;
-  handleReset: () => void;
-}
 
 function randomBool() {
   return Math.random() < 0.5;
@@ -81,28 +37,43 @@ interface GlobalProviderProps {
   children: ReactNode
 }
 
+
+const timeLimit = 6000
+const initial : ReducerType = {
+  gameMode: 'INTEGER', boardData: INTEGER, pieceToMove: null, playerOneTurn: randomBool(), playerChipsCount: {p1: 12, p2: 12},
+  gameOver: false, multipleCapture: false, forceCapture: false, kingJumpDirection: null, timeLimit: timeLimit, timerOne: timeLimit,
+  timerTwo: timeLimit, isActive: false, currentTimer: 2, isFirstMove: true,
+  timeSup: false, playerOneScore: 0, playerTwoScore: 0
+}
+
+
 export const GlobalProvider = ({children}: GlobalProviderProps) => {
-  
-  const [ gameMode, setGameMode ] = useState<gameMode>('INTEGER')
-  const [ boardData, setBoardData ] = useState<data[]>(INTEGER)
-  const [ pieceToMove, setPieceToMove ] = useState<data|null>(null)
-  // const [ possibleMoves, setPossibleMoves ] = useState([])
-  const [ playerOneTurn, setPlayerOneTurn ] = useState<boolean>(randomBool()) // player one will still be first to move regardless
-  const [ playerChipsCount, setPlayerChipsCount ] = useState<{p1: number, p2: number}>({p1: 12, p2: 12})
-  const [ gameOver, setGameOver ] = useState<boolean>(false)
-  // const [ jumpedChip, setJumpedChip ] = useState(null)
-  const [multipleCapture, setMultipleCapture] = useState<boolean>(false)
-  const [forceCapture, setForceCapture] = useState<boolean>(false)
-  const [ kingJumpDirection, setKingJumpDirection ] = useState<kingJumpDirection>(null)
-  const [ timeLimit, setTimeLimit ] = useState<number>(6000)
-  const [timerOne, setTimerOne] = useState<number>(timeLimit);
-  const [timerTwo, setTimerTwo] = useState<number>(timeLimit);
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [currentTimer, setCurrentTimer] = useState<number>(2);
-  const [ isFirstMove, setIsFirstMove ] = useState<boolean>(true)
-  const [ timeSup, setTimesUp ] = useState<boolean>(false)
-  const [ playerOneScore, setPlayerOneScore ] = useState<number>(0)
-  const [ playerTwoScore, setPlayerTwoScore ] = useState<number>(0)
+  const [
+    {
+      gameMode, boardData, pieceToMove, playerOneTurn, playerChipsCount, gameOver, multipleCapture, forceCapture,
+      kingJumpDirection, timeLimit, timerOne, timerTwo, isActive, currentTimer, isFirstMove, timeSup, playerOneScore, playerTwoScore
+    },
+    dispatch
+  ] = useReducer(reducer, initial)
+
+  // const [ gameMode, setGameMode ] = useState<gameMode>('INTEGER')
+  // const [ boardData, setBoardData ] = useState<data[]>(INTEGER)
+  // const [ pieceToMove, setPieceToMove ] = useState<data|null>(null)
+  // const [ playerOneTurn, setPlayerOneTurn ] = useState<boolean>(randomBool()) // player one will still be first to move regardless
+  // const [ playerChipsCount, setPlayerChipsCount ] = useState<{p1: number, p2: number}>({p1: 12, p2: 12})
+  // const [ gameOver, setGameOver ] = useState<boolean>(false)
+  // const [multipleCapture, setMultipleCapture] = useState<boolean>(false)
+  // const [forceCapture, setForceCapture] = useState<boolean>(false)
+  // const [ kingJumpDirection, setKingJumpDirection ] = useState<kingJumpDirection>(null)
+  // const [ timeLimit, setTimeLimit ] = useState<number>(6000)
+  // const [timerOne, setTimerOne] = useState<number>(timeLimit);
+  // const [timerTwo, setTimerTwo] = useState<number>(timeLimit);
+  // const [isActive, setIsActive] = useState<boolean>(false);
+  // const [currentTimer, setCurrentTimer] = useState<number>(2);
+  // const [ isFirstMove, setIsFirstMove ] = useState<boolean>(true)
+  // const [ timeSup, setTimesUp ] = useState<boolean>(false)
+  // const [ playerOneScore, setPlayerOneScore ] = useState<number>(0)
+  // const [ playerTwoScore, setPlayerTwoScore ] = useState<number>(0)
 
 
   function highlightMoves(itemToMove: data, position: number, playerTurn: boolean, board: data[]) {
@@ -671,45 +642,30 @@ tripleTake()
 
 
   return (
-    <GlobalContext.Provider value={{
-      boardData, 
-      setBoardData,
-      highlightMoves,
-      highlightMovesKing,
-      movePiece, 
-      pieceToMove,
-      setPieceToMove,
-      playerOneTurn,
-      setPlayerOneTurn,
-      gameOver,
-      setGameOver,
-      playerChipsCount,
-      multipleCapture,
-      setMultipleCapture,
-      forceCapture,
-      setForceCapture,
-      setKingJumpDirection,
-      handleRestart,
-      gameMode,
-      setGameMode,
-      timerOne,
-      setTimerOne,
-      timerTwo,
-      setTimerTwo,
-      isActive,
-      setIsActive,
-      currentTimer,
-      setCurrentTimer,
-      isFirstMove,
-      handleReset,
-      setTimesUp,
-      timeSup,
-      timeLimit,
-      setTimeLimit,
-      playerOneScore,
-      playerTwoScore,
-      setPlayerOneScore,
-      setPlayerTwoScore
+    <GlobalContext.Provider value={{      
+    boardData,
+    pieceToMove,
+    playerOneTurn,
+    playerChipsCount,
+    gameOver,
+    multipleCapture,
+    forceCapture,
+    kingJumpDirection,
+    timeLimit,
+    timerOne,
+    timerTwo,
+    isActive,
+    currentTimer,
+    isFirstMove,
+    timeSup,
+    playerOneScore,
+    playerTwoScore,
+    highlightMoves,
+    highlightMovesKing,
+    movePiece,
+    handleRestart,
+    handleReset,
+    dispatch,
     } as GameContextProps}
     >
       {children}
