@@ -12,19 +12,11 @@ import { checkForMovesPlayerOne, checkForMovesPlayerTwo, checkForMovesOrJumpsPla
 import { checkForJumps } from "../gamelogic/moveSearcher/jumpChecker"
 import { checkForMultiJumps } from "../gamelogic/moveSearcher/multiJumpChecker"
 import { regularCapture } from "../gamelogic/additionalCapture/capture/regularCapture"
+
 // king logic
-import { kingBotLeft } from "../gamelogic/kingMoveSearcher/kingBotLeft"
-import { kingBotRight } from "../gamelogic/kingMoveSearcher/kingBotRight"
-import { kingTopLeft } from "../gamelogic/kingMoveSearcher/kingTopLeft"
-import { kingTopRight } from "../gamelogic/kingMoveSearcher/kingTopRight"
-import { kingBotLeftMulti } from "../gamelogic/kingMultiJumpSearcher/kingMultiJumpBotLeft"
-import { kingBotRightMulti } from "../gamelogic/kingMultiJumpSearcher/kingMultiJumpBotRight"
-import { kingTopLeftMulti } from "../gamelogic/kingMultiJumpSearcher/kingMultiJumpTopLeft"
-import { kingTopRightMulti } from "../gamelogic/kingMultiJumpSearcher/kingMultiJumpTopRight"
-import { kingBotLeftCapture } from "../gamelogic/additionalCapture/kingCapture/botLeftKingCapture"
-import { kingBotRightCapture } from "../gamelogic/additionalCapture/kingCapture/botRightKingCapture"
-import { kingTopLeftCapture } from "../gamelogic/additionalCapture/kingCapture/topLeftKingCapture"
-import { kingTopRightCapture } from "../gamelogic/additionalCapture/kingCapture/topRightKingCapture"
+import kingMoveSearcher from "../gamelogic/kingMoveSearcher"
+import kingMultiJumpSearcher from "../gamelogic/kingMultiJumpSearcher"
+import kingCapture from "../gamelogic/additionalCapture/kingCapture"
 
 // solving logic
 import { solve } from "../gamelogic/formula/solve"
@@ -262,11 +254,8 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
     if (playerTurn === true && piece === 'x' || !playerTurn && piece === 'z') return
     
     if (itemToMove.king) {
-      // top right move
-      kingBotLeft(itemToMove, position, kingJumpDirection, board, tempArrForMoves, tempArrForJumps, jumpDirection, 7)
-      kingBotRight(itemToMove, position, kingJumpDirection, board, tempArrForMoves, tempArrForJumps, jumpDirection, 9)
-      kingTopRight(itemToMove, position, kingJumpDirection, board, tempArrForMoves, tempArrForJumps, jumpDirection, -7)
-      kingTopLeft(itemToMove, position, kingJumpDirection, board, tempArrForMoves, tempArrForJumps, jumpDirection, -9)
+      // searches initial possible moves
+      kingMoveSearcher(itemToMove, position, kingJumpDirection, board, tempArrForMoves, tempArrForJumps, jumpDirection)
     }
     
 
@@ -289,16 +278,8 @@ function doubleTake() {
 
   arrToJump.forEach((itemToMove, index) => {
     const jumpIndex = arrToJumpIndices[index]
-
-    kingBotLeftMulti(itemToMove,index, jumpDirection, board, jumpIndex, doubleTakeArr,  tempArrForJumps, 7, jumpDirection2nd, doubleTakeLanding)
-
-    kingBotRightMulti(itemToMove,index, jumpDirection, board, jumpIndex, doubleTakeArr,  tempArrForJumps, 9, jumpDirection2nd, doubleTakeLanding)
-    
-    kingTopRightMulti(itemToMove, index, jumpDirection, board, jumpIndex, doubleTakeArr,  tempArrForJumps, -7, jumpDirection2nd, doubleTakeLanding)
-
-    kingTopLeftMulti(itemToMove,index, jumpDirection, board, jumpIndex, doubleTakeArr,  tempArrForJumps, -9, jumpDirection2nd, doubleTakeLanding)
-
-    
+  
+    kingMultiJumpSearcher(itemToMove,index, jumpDirection, board, jumpIndex, doubleTakeArr,  tempArrForJumps, jumpDirection2nd, doubleTakeLanding)
   })
 
 }
@@ -327,14 +308,7 @@ function tripleTake() {
   arrToJump.forEach((item, index) => {
     const jumpIndex = jumpIndices[index]
     if (itemToMove.king) {
-
-      kingTopLeftMulti(itemToMove, index, jumpDirection2nd, board, jumpIndex, tripleTakeArr, tempArrForJumps, -9)
-
-      kingTopRightMulti(itemToMove, index, jumpDirection2nd, board, jumpIndex, tripleTakeArr, tempArrForJumps, -7)
-
-      kingBotLeftMulti(itemToMove, index, jumpDirection2nd, board, jumpIndex, tripleTakeArr, tempArrForJumps, 7)
-
-      kingBotRightMulti(itemToMove, index, jumpDirection2nd, board, jumpIndex, tripleTakeArr, tempArrForJumps, 9)
+      kingMultiJumpSearcher(itemToMove, index, jumpDirection2nd, board, jumpIndex, tripleTakeArr, tempArrForJumps,)
     }
   })
 
@@ -342,7 +316,9 @@ function tripleTake() {
 }
 tripleTake()
 // ----------------------------------------------------
-if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
+  if (tripleTakeArr.length) {
+    tempArrForJumps = tripleTakeArr
+  }
     
     const tempboard = board.map((item, index) => {
       if (!item.playable) return item
@@ -532,11 +508,9 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
 
       if (pieceToJump.king) {
         // top right
-        kingTopLeftCapture(pieceToJump, index, board, kingJumpDirection, forceFeed, -9)
-        kingTopRightCapture(pieceToJump, index, board, kingJumpDirection, forceFeed, -7)
-        kingBotLeftCapture(pieceToJump, index, board, kingJumpDirection, forceFeed, 7)
-        kingBotRightCapture(pieceToJump, index, board, kingJumpDirection, forceFeed, 9)
+        kingCapture(pieceToJump, index, board, kingJumpDirection, forceFeed)
       }
+
       if (forceFeed.length) {
         // console.log(forceFeed, 'you must eat this again')
         movingPiece = pieceToJump
@@ -668,13 +642,7 @@ if (tripleTakeArr.length) tempArrForJumps = tripleTakeArr
       if (item.king) {
         if (playerOneTurn && item?.piece ==='x') return
         if (!playerOneTurn && item?.piece === 'z') return
-        kingBotLeft(item, index, kingJumpDirection, boardData, tempArr, tempArr, jumpDirection, 7)
-
-        kingBotRight(item, index, kingJumpDirection, boardData, tempArr, tempArr, jumpDirection, 9)
-
-        kingTopLeft(item, index, kingJumpDirection, boardData, tempArr, tempArr, jumpDirection, -9)
-
-        kingTopRight(item, index, kingJumpDirection, boardData, tempArr, tempArr, jumpDirection, -7)
+        kingMoveSearcher(item, index, kingJumpDirection, boardData, tempArr, tempArr, jumpDirection)
       }
       
     })
