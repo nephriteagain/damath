@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      { !gameMode && <GameModeModal  showRules={showRules} /> }
+      { !gameMode  && <GameModeModal  showRules={showRules} /> }
       { gameOver && <WinnerModal /> }
       { openRules && <Rules setOpenRules={setOpenRules} openRules={openRules}/>}
       <Gameboard showRules={showRules} />

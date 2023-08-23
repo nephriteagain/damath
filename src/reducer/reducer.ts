@@ -80,7 +80,7 @@ export default function reducer(state: ReducerType, action: action) : ReducerTyp
             isActive: false,
             currentTimer: 1,
             timerOne,
-            timerTwo
+            timerTwo,
         }
     }
     if (action.type === actionType.changeGameMode) {
@@ -125,6 +125,7 @@ export default function reducer(state: ReducerType, action: action) : ReducerTyp
     }
     if (action.type === actionType.setGameMode) {
         const gameMode = action?.payload?.gameMode as gameMode
+        console.log(gameMode, 'reducer')
         return {
             ...state,
             gameMode

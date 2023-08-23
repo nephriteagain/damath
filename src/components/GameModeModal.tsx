@@ -145,6 +145,7 @@ const GameModeModal = ({ showRules }: GameModeModalProps) => {
   }
 
   function startGame() {
+    console.log(gameModeRef.current)
     if (
       gameModeRef.current === 'WHOLE' || 
       gameModeRef.current === 'INTEGER' ||
