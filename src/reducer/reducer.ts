@@ -1,4 +1,4 @@
-import { ReducerType, action, actionType, data, kingJumpDirection } from "../types/types"
+import { ReducerType, action, actionType, data, kingJumpDirection, gameMode } from "../types/types"
 
 import { randomBool } from "../context/GameContext"
 
@@ -124,11 +124,46 @@ export default function reducer(state: ReducerType, action: action) : ReducerTyp
         }
     }
     if (action.type === actionType.setGameMode) {
+        const gameMode = action?.payload?.gameMode as gameMode
         return {
             ...state,
-            gameMode: ''
+            gameMode
         }
     }
+    if (action.type === actionType.changeCurrentTime) {
+        return {
+            ...state,
+            currentTimer: state.playerOneTurn ? 1 : 2
+        }
+    }
+    if (action.type === actionType.timesUp) {
+        return {
+            ...state,
+            timeSup: true
+        }
+    }
+    if (action.type === actionType.setTimerOne) {
+        const timerOne = action?.payload?.timerOne as number
+        return {
+            ...state,
+            timerOne
+        }
+    }
+    if (action.type === actionType.setTimerTwo) {
+        const timerTwo = action?.payload?.timerTwo as number
+        return {
+            ...state,
+            timerTwo
+        }
+    }
+    if (action.type === actionType.setTimeLimit) {
+        const timeLimit = action?.payload?.timeLimit as number;
+        return {
+            ...state,
+            timeLimit
+        }
+    }
+
 
 
     return state

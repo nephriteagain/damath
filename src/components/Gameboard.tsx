@@ -12,6 +12,7 @@ import ChangeModeButton from "./ChangeModeButton"
 import ShowRuleButton from "./ShowRuleButton"
 import Board from "./Board"
 
+import { actionType } from "../types/types"
 
 import '../sass/Gameboard.scss'
 
@@ -27,23 +28,18 @@ function Gameboard({showRules}: GameboardProps) {
     playerOneTurn,
     gameMode,
     timerOne,
-    setTimerOne,
     timerTwo,
-    setTimerTwo,
     isActive,
     currentTimer,
-    setCurrentTimer,
     isFirstMove,
-    setGameOver,
-    setTimesUp,
     timeSup,
+    dispatch,
   } = useGlobalContext()
 
   
 
   function handleNext() {
-    if (!playerOneTurn) setCurrentTimer(2)
-    if (playerOneTurn) setCurrentTimer(1)
+    dispatch({type: actionType.changeCurrentTime})
   };
   
   // timer countdown passer
@@ -56,13 +52,25 @@ function Gameboard({showRules}: GameboardProps) {
   // timer countdown handler
   useEffect(() => {
     let interval : any = null;
-    if  (isActive && getCurrentTimer() === 0) setTimesUp(true)
+    if  (isActive && getCurrentTimer() === 0) {
+      dispatch({type: actionType.timesUp})
+    }
     if (isActive && getCurrentTimer() > 0) {
       interval = setInterval(() => {
         if (currentTimer === 1) {
-          setTimerOne(timerOne => timerOne - 1);
+          dispatch({
+            type: actionType.setTimerOne,
+            payload: {
+              timerOne: timerOne - 1
+            }
+          })
         } else {
-          setTimerTwo(timerTwo => timerTwo - 1);
+          dispatch({
+            type: actionType.setTimerTwo,
+            payload: {
+              timerTwo: timerTwo - 1
+            }
+          })
         } 
       }, 100);
     } else {
@@ -78,7 +86,9 @@ function Gameboard({showRules}: GameboardProps) {
 
   // game over handler
   useEffect(() => {
-    if (timeSup) setGameOver(true)
+    if (timeSup) {
+      dispatch({type: actionType.gameOver})
+    }
   }, [timeSup])
 
 

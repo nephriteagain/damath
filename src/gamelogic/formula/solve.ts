@@ -1,5 +1,4 @@
-import { data } from "../../data/counting"
-
+import { data } from "../../types/types"
 export function solve(chipToBeTaken : data, pieceToMove : data, placeToLand: data) {
   if (!chipToBeTaken?.piece) return
   let total = 0

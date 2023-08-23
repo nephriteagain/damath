@@ -1,6 +1,6 @@
 import { Dispatch } from 'react'
 
-type gameMode = ('INTEGER'|'COUNTING'|'WHOLE'|'')
+export type gameMode = ('INTEGER'|'COUNTING'|'WHOLE'|'')
 
 export enum kingJumpDirection {
   null,
@@ -65,12 +65,18 @@ export enum actionType {
   resetGame = 'reset_game',
   // this change the board data
   changeGameMode = 'change_game_mode',
+  // this changes the mode
+  setGameMode = 'set_game_mode',
   gameOver = 'game_over',
   start = 'start',
   nextTurn = 'next_turn',
   forceCapture = 'force_capture',
   newBoardData = 'new_board_data',
-  setGameMode = 'set_game_mode'
+  changeCurrentTime = 'change_current_timer',
+  timesUp = 'times_up',
+  setTimerOne = 'set_timer_one',
+  setTimerTwo = 'set_timer_two',
+  setTimeLimit = 'set_time_limit'
 }
 
 export interface payload {
@@ -90,6 +96,8 @@ export interface payload {
   timerOne?: number;
   timerTwo?: number;
   currentTimer?: number;
+  timeLimit?: number;
+  gameMode?: gameMode
 }
 
 

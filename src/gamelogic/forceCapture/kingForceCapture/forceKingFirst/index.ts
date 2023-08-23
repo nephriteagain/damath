@@ -1,5 +1,4 @@
-import { data } from "../../../../data/counting";
-
+import { data } from "../../../../types/types";
 import { forceKingCapture } from "./forceKingFirst";
 
 export default function forceKingCaptureFirst(

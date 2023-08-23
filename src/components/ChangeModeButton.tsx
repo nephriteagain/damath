@@ -9,7 +9,12 @@ function ChangeModeButton() {
   const {handleRestart, handleReset, dispatch} = useGlobalContext()
 
   function changeGameMode() {
-    dispatch({type: actionType.setGameMode})
+    dispatch({
+      type: actionType.setGameMode,
+      payload: {
+        gameMode: ''
+      }
+    })
   }
   
   return (

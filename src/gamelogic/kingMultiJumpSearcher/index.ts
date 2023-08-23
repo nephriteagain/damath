@@ -1,4 +1,4 @@
-import { data } from "../../data/counting";
+import { data } from "../../types/types";
 
 import { kingBotLeftMulti } from "./kingMultiJumpBotLeft";
 import { kingBotRightMulti } from "./kingMultiJumpBotRight";

@@ -1,4 +1,4 @@
-import { data } from "../../../../data/counting";
+import { data } from "../../../../types/types";
 import { forceKingBotLeft } from "./forceKingSecondBotLeft";
 import { forceKingTopLeft } from "./forceKingSecondTopLeft";
 import { forceKingBotRight } from "./forceKingSecondBotRight";

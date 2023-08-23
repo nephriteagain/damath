@@ -1,4 +1,4 @@
-import { data } from "../data/counting"
+import { data } from "../types/types"
 
 export function chipStyling(item : data, chipStyle : {[key: string]: string}) {
   if (item?.piece === 'z') chipStyle.background = 'linear-gradient(to top left, red 0%, rgb(255, 90, 90) 70%)'

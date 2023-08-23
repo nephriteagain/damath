@@ -7,6 +7,8 @@ import { RiTimerFlashLine } from 'react-icons/ri'
 import { useGlobalContext } from "../context/GameContext"
 import '../sass/GameModeModal.scss'
 
+import { actionType } from '../types/types'
+
 interface GameModeModalProps {
   showRules: () => void
 }
@@ -16,11 +18,8 @@ const GameModeModal = ({ showRules }: GameModeModalProps) => {
 
   const {
     gameMode,
-    setGameMode,
-    timeLimit,
-    setTimeLimit,
-    setTimerOne,
-    setTimerTwo
+    timeLimit,    
+    dispatch
   } = useGlobalContext()
 
 
@@ -40,22 +39,52 @@ const GameModeModal = ({ showRules }: GameModeModalProps) => {
 
     switch (selectedValue) {
       case '5:00':
-        setTimeLimit(3000);
+        dispatch({
+          type: actionType.setTimeLimit,
+          payload: {
+            timeLimit: 3000
+          }
+        })
         break;
       case '1:00':
-        setTimeLimit(600);
+        dispatch({
+          type: actionType.setTimeLimit,
+          payload: {
+            timeLimit: 600
+          }
+        })
         break;
       case '3:00':
-        setTimeLimit(1800);
+        dispatch({
+          type: actionType.setTimeLimit,
+          payload: {
+            timeLimit: 1800
+          }
+        })
         break;
       case '10:00':
-        setTimeLimit(6000);
+        dispatch({
+          type: actionType.setTimeLimit,
+          payload: {
+            timeLimit: 6000
+          }
+        })
         break;
       case 'Unlimited':
-        setTimeLimit(Infinity);
+        dispatch({
+          type: actionType.setTimeLimit,
+          payload: {
+            timeLimit: Infinity
+          }
+        })
         break;
       default:
-        setTimeLimit(3000)
+        dispatch({
+          type: actionType.setTimeLimit,
+          payload: {
+            timeLimit: 3000
+          }
+        })
         break;
     }
     const element = dropdropRef.current as HTMLSelectElement
@@ -64,9 +93,18 @@ const GameModeModal = ({ showRules }: GameModeModalProps) => {
 
 
   useEffect(() => {
-    setTimerOne(timeLimit)
-    setTimerTwo(timeLimit)
-
+    dispatch({
+      type: actionType.setTimerOne,
+      payload: {
+        timerOne: timeLimit
+      }
+    })
+    dispatch({
+      type: actionType.setTimerTwo,
+      payload: {
+        timerTwo: timeLimit
+      }
+    })
     
   }, [timeLimit])
 
@@ -112,7 +150,12 @@ const GameModeModal = ({ showRules }: GameModeModalProps) => {
       gameModeRef.current === 'INTEGER' ||
       gameModeRef.current === 'COUNTING'
       ) {
-      setGameMode(gameModeRef.current)
+      dispatch({
+        type: actionType.setGameMode,
+        payload: {
+          gameMode: gameModeRef.current
+        }
+      })
       
     } else {
       const alertEl = alertRef.current as HTMLDivElement

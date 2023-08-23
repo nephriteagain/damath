@@ -1,5 +1,4 @@
-import { data } from "../../../data/counting"
-
+import { data } from "../../../types/types"
 export function forceCaptureThird(
   item : data,
   index : number,

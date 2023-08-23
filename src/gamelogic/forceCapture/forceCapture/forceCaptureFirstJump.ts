@@ -1,4 +1,4 @@
-import { data } from "../../../data/counting"
+import { data } from "../../../types/types"
 // TODO: recurse all forcecaptures regular to third into single thing
 export function forceCaptureRegular(
   item : data,

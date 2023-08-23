@@ -1,5 +1,4 @@
-import { data } from "../../../data/counting";
-
+import { data } from "../../../types/types";
 import { forceCaptureRegular } from "./forceCaptureFirstJump";
 import { foreCaptureSecond } from "./forceCaptureSecond";
 import { forceCaptureThird } from "./forceCaptureThird";

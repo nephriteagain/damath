@@ -1,4 +1,4 @@
-import { data } from "../data/counting"
+import { data } from "../types/types"
 
 export function operationStyling (item: data, operationStyle: {[key: string]: string}) {
   if (item?.piece === null) {

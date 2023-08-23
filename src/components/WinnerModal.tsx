@@ -19,7 +19,7 @@ function WinnerModal() {
   const [ oneGrandTotal, setOneGrandTotal ] = useState(0)
   const [ twoGrandTotal, setTwoGrandTotal ] = useState(0)
 
-  const { playerOneTurn, handleRestart, gameMode, timeSup, playerOneScore, playerTwoScore, boardData, gameOver, setPlayerOneScore, setPlayerTwoScore } = useGlobalContext()
+  const { playerOneTurn, handleRestart, gameMode, timeSup, playerOneScore, playerTwoScore, boardData, gameOver,  } = useGlobalContext()
   
   
 

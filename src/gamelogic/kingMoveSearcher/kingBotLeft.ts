@@ -1,9 +1,9 @@
-import { data } from "../../data/counting"
+import { kingJumpDirection, data } from './../../types/types';
 
 export function kingBotLeft(
   itemToMove: data,
   position: number,
-  kingJumpDirection: string|null,
+  kingJumpDirection: kingJumpDirection,
   board: data[],
   tempArrForMoves: data[],
   tempArrForJumps: data[],
